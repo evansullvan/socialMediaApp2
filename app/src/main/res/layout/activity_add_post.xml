@@ -4,7 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="30dp"
+    android:background="@color/main_yellow"
     tools:context=".activities.AddPost">
+
+
+    <TextView
+        android:id="@+id/topTextView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@drawable/top_rounded"
+android:paddingVertical="15dp"
+        android:textColor="@color/black"
+        android:text="@string/create_post"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/middleTextView"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
+
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topTextView" />
+
+    <EditText
+        android:id="@+id/postTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/enterTitle"
+        android:inputType="textPersonName"
+     android:layout_marginHorizontal="15dp"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/topTextView" />
+
+    <EditText
+        android:id="@+id/postDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginHorizontal="15dp"
+        android:inputType="textPersonName"
+       android:hint="@string/enterDesc"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/postTitle" />
+
+
+
+    <TextView
+        android:id="@+id/BottomTextView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bottom_rounded"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/middleTextView" />
+
+    <Button
+        android:id="@+id/postButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/postbtntext"
+        android:backgroundTint="@color/main_yellow"
+        app:layout_constraintBottom_toBottomOf="@+id/middleTextView"
+        app:layout_constraintEnd_toEndOf="@+id/middleTextView"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView" />
 
 
 

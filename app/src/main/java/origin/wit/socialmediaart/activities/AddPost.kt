@@ -19,7 +19,7 @@ class AddPost : AppCompatActivity() {
 
         Timber.i("Placemark Activity started...")
 
-        binding..setOnClickListener() {
+        binding.postButton.setOnClickListener() {
             Timber.i("add Button Pressed")
         }
     }

@@ -23,5 +23,7 @@
     <string name="exit">x</string>
     <string name="createNewPostText">Add a description</string>
     <string name="postbtntext">Post</string>
+    <string name="enterTitle">Title</string>
+    <string name="enterDesc">Description</string>
 
 </resources>
