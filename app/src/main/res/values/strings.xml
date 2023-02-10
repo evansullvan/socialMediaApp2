@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">SocialMediaArt</string>
+    <string name="app_name">ArtSocialMedia</string>
+    <string name="title_activity_home_screen">Home_Screen</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="Home_Button">Home</string>
+    <string name="cart_button">cart</string>
+    <string name="add_button">+</string>
+    <string name="search_button">search</string>
+    <string name="profile_button">profile</string>
+    <string name="login_title">LOGIN</string>
+    <string name="signup_title">SIGNUP</string>
+    <string name="login_signup_enter_email">Email</string>
+    <string name="login_signup_enter_first">First Name</string>
+    <string name="login_signup_enter_second">Second Name</string>
+    <string name="login_signup_enter_password">Password</string>
+    <string name="login_signup_signupbtn">SIGNUP</string>
+    <string name="login_signup_loginbtn">LOGIN</string>
+    <string name="login_signup_guestbtn">GUEST</string>
+    <string name="login_signup_signupexit_btn_text">Back</string>
 </resources>
