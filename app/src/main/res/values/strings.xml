@@ -19,4 +19,9 @@
     <string name="login_signup_loginbtn">LOGIN</string>
     <string name="login_signup_guestbtn">GUEST</string>
     <string name="login_signup_signupexit_btn_text">Back</string>
+    <string name="create_post">Create New Post</string>
+    <string name="exit">x</string>
+    <string name="createNewPostText">Add a description</string>
+    <string name="postbtntext">Post</string>
+
 </resources>
