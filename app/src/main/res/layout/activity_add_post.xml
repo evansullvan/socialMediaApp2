@@ -106,4 +106,16 @@ android:paddingVertical="15dp"
         app:layout_constraintStart_toStartOf="@+id/middleTextView"
         app:layout_constraintTop_toBottomOf="@+id/sellableswitch" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+android:layout_marginVertical="15dp"
+        android:background="@drawable/navbar_rounded"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:menu="@menu/menu_bottom_navigation"
+        tools:layout_editor_absoluteX="15dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

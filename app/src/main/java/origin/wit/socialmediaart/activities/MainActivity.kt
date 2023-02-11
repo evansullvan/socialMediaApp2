@@ -1,55 +1,77 @@
 package origin.wit.socialmediaart.activities
 
+
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import origin.wit.socialmediaart.R
-import timber.log.Timber
-import timber.log.Timber.i
 import origin.wit.socialmediaart.databinding.ActivityMainBinding
 import origin.wit.socialmediaart.databinding.PostCardBinding
 import origin.wit.socialmediaart.main.MainApp
 import origin.wit.socialmediaart.models.Post
+import timber.log.Timber
+
 
 class MainActivity : AppCompatActivity() {
+    lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
     private lateinit var socialmediaapp: MainApp
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        bottomNavigationView = findViewById(R.id.bottomNavbar)
         socialmediaapp = application as MainApp
 
-        binding.toolbar.title = title
-        setSupportActionBar(binding.toolbar)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homebutton -> {
+                    Timber.i("home button pressed")
+                    println("home button pressed")
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.additembutton -> {
+                    Timber.i("add button pressed")
+                    println("add button pressed")
+                    startActivity(Intent(applicationContext, AddPost::class.java))
+                    overridePendingTransition(0, 0)
+                    return@setOnNavigationItemSelectedListener true
+                }
+//                R.id.about -> {
+//                    startActivity(Intent(applicationContext, AboutActivity::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+                else -> return@setOnNavigationItemSelectedListener false
+            }
+        }
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts)
 
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(origin.wit.socialmediaart.R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_add -> {
+            origin.wit.socialmediaart.R.id.item_add -> {
                 val launcherIntent = Intent(this, AddPost ::class.java)
                 getResult.launch(launcherIntent)
             }
@@ -66,9 +88,8 @@ class MainActivity : AppCompatActivity() {
                 notifyItemRangeChanged(0,socialmediaapp.posts.size)
             }
         }
-
-
 }
+
 
 class PostAdapter constructor(private var posts: List<Post>) :
     RecyclerView.Adapter<PostAdapter.MainHolder>() {
