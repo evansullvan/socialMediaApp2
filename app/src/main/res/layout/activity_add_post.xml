@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="15dp"
-    android:paddingVertical="30dp"
+    android:paddingVertical="5dp"
     android:background="@color/main_yellow"
     tools:context=".activities.AddPost">
+
+
+
 
 
     <TextView
@@ -40,6 +43,7 @@ android:paddingVertical="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:layout_margin="15dp"
         android:hint="@string/enterTitle"
         android:inputType="textPersonName"
      android:layout_marginHorizontal="15dp"
@@ -51,6 +55,7 @@ android:paddingVertical="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:layout_margin="15dp"
         android:layout_marginHorizontal="15dp"
         android:inputType="textPersonName"
        android:hint="@string/enterDesc"
@@ -79,6 +84,26 @@ android:paddingVertical="15dp"
         app:layout_constraintEnd_toEndOf="@+id/middleTextView"
         app:layout_constraintStart_toStartOf="@+id/middleTextView" />
 
+    <Switch
+        android:id="@+id/sellableswitch"
+        android:layout_marginHorizontal="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="sellable"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/postDesc" />
 
+    <EditText
+        android:id="@+id/priceField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:ems="10"
+        android:layout_margin="15dp"
+        android:hint="@string/enterTitle"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/sellableswitch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
