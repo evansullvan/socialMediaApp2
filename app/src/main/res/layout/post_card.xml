@@ -6,49 +6,100 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:elevation="24dp">
+
+
+    android:elevation="34dp"
+    android:backgroundTint="@color/white"
+    app:cardCornerRadius="0dp"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp">
+        android:paddingVertical="4dp"
+      >
 
         <TextView
             android:id="@+id/postTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:textColor="@color/black"
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+
+            android:layout_marginEnd="10dp"
+
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/darkNavy_accent"
             android:textSize="20sp"
-            android:layout_marginHorizontal="10dp"
-            android:textStyle="bold"
-            tools:text="Title" />
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/imageView"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="?android:attr/listDivider" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/postTitle"
-            android:layout_marginTop="5dp"
-            tools:srcCompat="@drawable/ic_launcher_foreground" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            app:srcCompat="@drawable/cart__1_" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView"
+            android:layout_marginTop="10dp"
+android:layout_marginStart="15dp"
+            android:text="Price"
+            android:textColor="@color/darkNavy_accent"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/postdescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageView"
-            android:layout_marginHorizontal="10dp"
-            tools:text="A Description" />
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="TextView"
+            android:textColor="@color/grey" />
 
         <TextView
             android:id="@+id/pricedisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/postTitle"
-            android:layout_marginStart="56dp"
+            android:layout_below="@+id/imageView"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/textView2"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/DeletePostBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/postTitle"
-            android:hint="@string/enterPrice" />
+            android:text="@string/deletePostBtnText" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
