@@ -8,10 +8,14 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivityMainBinding
@@ -20,17 +24,18 @@ import origin.wit.socialmediaart.main.MainApp
 import origin.wit.socialmediaart.models.Post
 import timber.log.Timber
 
-
+private lateinit var socialmediaapp: MainApp
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
-    private lateinit var socialmediaapp: MainApp
 
+    //private lateinit var deletePostButton : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNavigationView = findViewById(R.id.bottomNavbar)
+        //deletePostButton = findViewById(R.id.DeletePostBtn)
         socialmediaapp = application as MainApp
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -58,10 +63,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+
+
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts)
-
+        binding.recyclerView.setHasFixedSize(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -115,6 +123,13 @@ class PostAdapter constructor(private var posts: List<Post>) :
             binding.postTitle.text = post.title
             binding.postdescription.text = post.description
             binding.pricedisplay.text = post.price.toString()
+            binding.DeletePostBtn.setOnClickListener() {
+                socialmediaapp.posts.remove(post)
+
+
+
+            }
         }
+
     }
 }

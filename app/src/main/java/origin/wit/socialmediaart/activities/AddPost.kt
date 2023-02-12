@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 
@@ -63,7 +64,7 @@ class AddPost : AppCompatActivity() {
         Timber.i("Placemark Activity started...")
         //val pricebutton = binding.sellable.isChecked
 
-
+        binding.priceField.isVisible = false
         binding.sellableswitch.setOnClickListener{
             if (binding.sellableswitch.isChecked){
                 post.forSale = true
@@ -78,6 +79,9 @@ class AddPost : AppCompatActivity() {
         binding.postButton.setOnClickListener() {
             Timber.i("add Button Pressed: ")
 
+            if(post.title.isNullOrBlank() && post.description.isNullOrBlank()){
+                Snackbar.make(it,"please dont leave empty fields", Snackbar.LENGTH_LONG).show()
+            }
             post.title = binding.postTitle.text.toString()
             post.description = binding.postDesc.text.toString()
 
@@ -85,8 +89,9 @@ class AddPost : AppCompatActivity() {
 
 
             if(title.isNotEmpty() && post.description!!.isNotEmpty()) {
-                socialmediaapp.posts.add(post.copy())
+                socialmediaapp.posts.add(0,post.copy())
                 Timber.i("added post: ")
+                startActivity(Intent(applicationContext, MainActivity::class.java))
                for (i in socialmediaapp.posts.indices)
                 { i("post[$i]:${this.socialmediaapp.posts[i]}") }
                 setResult(RESULT_OK)

@@ -4,24 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="15dp"
+
     android:paddingVertical="5dp"
-    android:background="@color/main_yellow"
+    android:background="@color/light_grey"
     tools:context=".activities.AddPost">
-
-
-
 
 
     <TextView
         android:id="@+id/topTextView"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginHorizontal="15dp"
         android:background="@drawable/top_rounded"
-android:paddingVertical="15dp"
-        android:textColor="@color/black"
+        android:paddingVertical="15dp"
         android:text="@string/create_post"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +30,7 @@ android:paddingVertical="15dp"
         android:id="@+id/middleTextView"
         android:layout_width="0dp"
         android:layout_height="500dp"
-
+android:layout_marginHorizontal="15dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +67,8 @@ android:paddingVertical="15dp"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@drawable/bottom_rounded"
-
+android:elevation="12dp"
+        android:layout_marginHorizontal="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/middleTextView" />
@@ -111,11 +110,20 @@ android:paddingVertical="15dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-android:layout_marginVertical="15dp"
+android:layout_marginVertical="10dp"
         android:background="@drawable/navbar_rounded"
         app:layout_constraintBottom_toBottomOf="parent"
-
+        android:layout_marginHorizontal="15dp"
         app:menu="@menu/menu_bottom_navigation"
         tools:layout_editor_absoluteX="15dp" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/topTextView"
+        app:layout_constraintEnd_toEndOf="@+id/topTextView"
+        app:layout_constraintStart_toStartOf="@+id/topTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

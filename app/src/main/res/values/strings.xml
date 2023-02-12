@@ -26,5 +26,6 @@
     <string name="enterTitle">Title</string>
     <string name="enterPrice">Price</string>
     <string name="enterDesc">Description</string>
+    <string name="deletePostBtnText">Delete</string>
 
 </resources>

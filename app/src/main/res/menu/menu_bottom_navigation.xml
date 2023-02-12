@@ -4,7 +4,8 @@
     <item
         android:id="@+id/homebutton"
         android:icon="@drawable/home__2_"
-        android:title="" />
+        android:title=""
+        />
 
     <item
         android:id="@+id/cartbutton"
