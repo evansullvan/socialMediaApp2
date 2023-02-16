@@ -2,6 +2,7 @@ package origin.wit.socialmediaart.activities
 
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -30,6 +31,7 @@ class AddPost : AppCompatActivity() {
     private var post = Post()
     private lateinit var binding: ActivityAddPostBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
@@ -38,6 +40,9 @@ class AddPost : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottomNavbar)
         socialmediaapp = application as MainApp
         Timber.plant(Timber.DebugTree())
+
+        binding.topTextView.text = "Create new post"
+        binding.postButton.text = "Post"
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -55,17 +60,17 @@ class AddPost : AppCompatActivity() {
                    // overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
-                 R.id.searchbutton -> {
-                    startActivity(Intent(applicationContext, SearchActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
+//                 R.id.searchbutton -> {
+//                    startActivity(Intent(applicationContext, SearchActivity::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
                 else -> return@setOnNavigationItemSelectedListener false
             }
         }
 
 
-        Timber.i("Placemark Activity started...")
+        Timber.i("post Activity started...")
         //val pricebutton = binding.sellable.isChecked
 
         //drop down array
@@ -81,13 +86,28 @@ class AddPost : AppCompatActivity() {
             if (binding.sellableswitch.isChecked){
                 post.forSale = true
                 binding.priceField.isVisible = true
+
             }else{
                 post.forSale = false
                 binding.priceField.isVisible = false
 
             }
         }
+        if (intent.hasExtra("placemark_edit")) {
+            post = intent.extras?.getParcelable("placemark_edit")!!
+            binding.postTitle.setText(post.title)
+            binding.postDesc.setText(post.description)
 
+  //            post.price?.let { binding.priceField.setText(it) }
+            if(post.forSale){
+                binding.sellableswitch.setChecked(true)
+            }else{
+                binding.sellableswitch.setChecked(false)
+            }
+            binding.arttypeSpinner.setSelection(adapter.getPosition(post.type.toString()))
+            binding.topTextView.text = "Update post"
+            binding.postButton.text = "Update"
+        }
         binding.postButton.setOnClickListener() {
             Timber.i("add Button Pressed: ")
 
@@ -97,19 +117,19 @@ class AddPost : AppCompatActivity() {
             post.title = binding.postTitle.text.toString()
             post.description = binding.postDesc.text.toString()
             post.type = binding.arttypeSpinner.toString()
+if(binding.sellableswitch.isChecked){
+    post.price = binding.priceField.text.toString().toInt()
+}else {
+    post.price = 0
+}
 
-            post.price = binding.priceField.text.toString().toInt()
 
 
             if(title.isNotEmpty() && post.description!!.isNotEmpty()) {
-                socialmediaapp.posts.add(0,post.copy())
+                socialmediaapp.posts.create(post.copy())
                 Timber.i("added post: ")
                 startActivity(Intent(applicationContext, MainActivity::class.java))
-               for (i in socialmediaapp.posts.indices)
-                {
-                   i("post[$i]:${this.socialmediaapp.posts[i]}")
-               println("post[$i]:${this.socialmediaapp.posts[i]}")
-               }
+
                 setResult(RESULT_OK)
                 finish()
             } else{
