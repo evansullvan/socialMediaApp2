@@ -14,8 +14,6 @@ class MainApp : Application() {
         Timber.plant(Timber.DebugTree())
         i("social media started")
 
-        posts.add(Post("One", "About one...",false,69))
-        posts.add(Post("One", "About one...",false,69))
-        posts.add(Post("One", "About one...",false,69))
+
     }
 }

@@ -27,5 +27,6 @@
     <string name="enterPrice">Price</string>
     <string name="enterDesc">Description</string>
     <string name="deletePostBtnText">Delete</string>
+    <string name="emptyStatment">Oh no its empty in here! &#128542;</string>
 
 </resources>

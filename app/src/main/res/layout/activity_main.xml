@@ -56,7 +56,8 @@
         android:layout_margin="15dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/navbar_rounded"
-
+        app:itemIconTint="@color/light_grey"
+        app:itemTextColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,10 +65,20 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/emptyStatment"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavbar"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+        app:layout_constraintStart_toStartOf="@+id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/fully_rounded"
         android:backgroundTint="@color/white"
         android:scrollbars="vertical"
