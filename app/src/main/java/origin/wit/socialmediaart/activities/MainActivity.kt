@@ -25,26 +25,36 @@ import origin.wit.socialmediaart.models.Post
 import timber.log.Timber
 
 private lateinit var socialmediaapp: MainApp
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), PostListener {
     lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
 
     //private lateinit var deletePostButton : Button
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNavigationView = findViewById(R.id.bottomNavbar)
         //deletePostButton = findViewById(R.id.DeletePostBtn)
         socialmediaapp = application as MainApp
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
+        // binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts)
+        //binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts.findAll())
+        binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts.findAll(), this)
+
+        binding.recyclerView.setHasFixedSize(true)
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homebutton -> {
                     Timber.i("home button pressed")
                     println("home button pressed")
-                   // startActivity(Intent(applicationContext, MainActivity::class.java))
-                   // bottomNavigationView.selectedItemId = R.id.homebutton
+                    // startActivity(Intent(applicationContext, MainActivity::class.java))
+                    // bottomNavigationView.selectedItemId = R.id.homebutton
                     //overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -54,22 +64,16 @@ class MainActivity : AppCompatActivity() {
                     overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.searchbutton -> {
-                    startActivity(Intent(applicationContext, SearchActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
+//                R.id.searchbutton -> {
+//                    startActivity(Intent(applicationContext, SearchActivity::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
                 else -> return@setOnNavigationItemSelectedListener false
             }
         }
 
 
-
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts)
-        binding.recyclerView.setHasFixedSize(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -80,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             origin.wit.socialmediaart.R.id.item_add -> {
-                val launcherIntent = Intent(this, AddPost ::class.java)
+                val launcherIntent = Intent(this, AddPost::class.java)
                 getResult.launch(launcherIntent)
             }
         }
@@ -92,14 +96,37 @@ class MainActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,socialmediaapp.posts.size)
+                (binding.recyclerView.adapter)?.notifyItemRangeChanged(
+                    0,
+                    socialmediaapp.posts.findAll().size
+                )
             }
         }
+
+    val getClickResult =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                (binding.recyclerView.adapter)?.notifyItemRangeChanged(
+                    0,
+                    socialmediaapp.posts.findAll().size
+                )
+            }
+        }
+
+    override fun onPostClick(post: Post) {
+        val launcherIntent = Intent(this, AddPost::class.java)
+        launcherIntent.putExtra("placemark_edit", post)
+        getClickResult.launch(launcherIntent)
+    }
 }
 
+interface PostListener {
+    fun onPostClick(post: Post)
+}
 
-class PostAdapter constructor(private var posts: List<Post>) :
+class PostAdapter constructor(private var posts: List<Post>,private val listener:PostListener) :
     RecyclerView.Adapter<PostAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -111,24 +138,22 @@ class PostAdapter constructor(private var posts: List<Post>) :
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val post = posts[holder.adapterPosition]
-        holder.bind(post)
+        holder.bind(post,listener)
     }
 
     override fun getItemCount(): Int = posts.size
 
-    class MainHolder(private val binding : PostCardBinding) :
+    class MainHolder(private val binding: PostCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(post: Post) {
+        fun bind(post: Post,listener: PostListener) {
             binding.postTitle.text = post.title
             binding.postdescription.text = post.description
             binding.pricedisplay.text = post.price.toString()
             binding.DeletePostBtn.setOnClickListener() {
                 socialmediaapp.posts.remove(post)
-
-
-
             }
+            binding.root.setOnClickListener { listener.onPostClick(post) }
         }
 
     }
