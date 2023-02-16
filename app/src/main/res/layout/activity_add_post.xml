@@ -31,6 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="500dp"
 android:layout_marginHorizontal="15dp"
+
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +56,7 @@ android:layout_marginHorizontal="15dp"
         android:ems="10"
         android:layout_margin="15dp"
         android:layout_marginHorizontal="15dp"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
        android:hint="@string/enterDesc"
         app:layout_constraintStart_toStartOf="@+id/middleTextView"
         app:layout_constraintTop_toBottomOf="@+id/postTitle" />
@@ -75,9 +76,12 @@ android:elevation="12dp"
 
     <Button
         android:id="@+id/postButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/postbtntext"
+        android:layout_marginBottom="5dp"
+        android:elevation="12dp"
+        android:background="@drawable/fully_rounded"
         android:backgroundTint="@color/main_yellow"
         app:layout_constraintBottom_toBottomOf="@+id/middleTextView"
         app:layout_constraintEnd_toEndOf="@+id/middleTextView"
@@ -100,7 +104,7 @@ android:elevation="12dp"
         android:layout_marginHorizontal="15dp"
         android:ems="10"
         android:layout_margin="15dp"
-        android:hint="@string/enterTitle"
+        android:hint="@string/enterPrice"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="@+id/middleTextView"
         app:layout_constraintTop_toBottomOf="@+id/sellableswitch" />
@@ -110,10 +114,12 @@ android:elevation="12dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-android:layout_marginVertical="10dp"
-        android:background="@drawable/navbar_rounded"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="10dp"
+        android:background="@drawable/navbar_rounded"
+        app:itemIconTint="@color/light_grey"
+        app:itemTextColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_navigation"
         tools:layout_editor_absoluteX="15dp" />
 
@@ -125,5 +131,18 @@ android:layout_marginVertical="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/topTextView"
         app:layout_constraintEnd_toEndOf="@+id/topTextView"
         app:layout_constraintStart_toStartOf="@+id/topTextView" />
+
+    <Spinner
+        android:id="@+id/arttypeSpinner"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+android:tooltipText="Type"
+        android:layout_margin="15dp"
+        android:background="@drawable/spinner"
+        app:layout_constraintEnd_toEndOf="@+id/middleTextView"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/priceField" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

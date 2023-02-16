@@ -1,6 +1,7 @@
 package origin.wit.socialmediaart.activities
 
 
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -19,20 +20,21 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivityMainBinding
+import origin.wit.socialmediaart.databinding.ActivitySearchBinding
 import origin.wit.socialmediaart.databinding.PostCardBinding
 import origin.wit.socialmediaart.main.MainApp
 import origin.wit.socialmediaart.models.Post
 import timber.log.Timber
 
 private lateinit var socialmediaapp: MainApp
-class MainActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() {
     lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivitySearchBinding
 
     //private lateinit var deletePostButton : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNavigationView = findViewById(R.id.bottomNavbar)
         //deletePostButton = findViewById(R.id.DeletePostBtn)
@@ -43,19 +45,20 @@ class MainActivity : AppCompatActivity() {
                 R.id.homebutton -> {
                     Timber.i("home button pressed")
                     println("home button pressed")
-                   // startActivity(Intent(applicationContext, MainActivity::class.java))
-                   // bottomNavigationView.selectedItemId = R.id.homebutton
-                    //overridePendingTransition(0, 0)
+                     startActivity(Intent(applicationContext, MainActivity::class.java))
+
+                    overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.additembutton -> {
-
+                    Timber.i("add button pressed")
+                    println("add button pressed")
                     startActivity(Intent(applicationContext, AddPost::class.java))
                     overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.searchbutton -> {
-                    startActivity(Intent(applicationContext, SearchActivity::class.java))
+                   // startActivity(Intent(applicationContext, SearchActivity::class.java))
                     overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts)
+        binding.recyclerView.adapter = searchAdapter(socialmediaapp.posts)
         binding.recyclerView.setHasFixedSize(true)
     }
 
@@ -99,8 +102,8 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-class PostAdapter constructor(private var posts: List<Post>) :
-    RecyclerView.Adapter<PostAdapter.MainHolder>() {
+class searchAdapter constructor(private var posts: List<Post>) :
+    RecyclerView.Adapter<searchAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = PostCardBinding

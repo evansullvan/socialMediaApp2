@@ -24,7 +24,7 @@
 
     <item
         android:id="@+id/profilebutton"
-        android:icon="@drawable/search__1_"
+        android:icon="@drawable/profile__1_"
         android:title="" />
 
 </menu>

@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -31,6 +33,7 @@ class AddPost : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         bottomNavigationView = findViewById(R.id.bottomNavbar)
         socialmediaapp = application as MainApp
@@ -41,28 +44,37 @@ class AddPost : AppCompatActivity() {
                 R.id.homebutton -> {
                     Timber.i("home button pressed")
                     println("home button pressed")
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.additembutton -> {
-                    Timber.i("add button pressed")
-                    println("add button pressed")
-                    startActivity(Intent(applicationContext, AddPost::class.java))
+
+                   // startActivity(Intent(applicationContext, AddPost::class.java))
+                   // bottomNavigationView.selectedItemId = R.id.additembutton
+                   // overridePendingTransition(0, 0)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                 R.id.searchbutton -> {
+                    startActivity(Intent(applicationContext, SearchActivity::class.java))
                     overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
-//                R.id.about -> {
-//                    startActivity(Intent(applicationContext, AboutActivity::class.java))
-//                    overridePendingTransition(0, 0)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
                 else -> return@setOnNavigationItemSelectedListener false
             }
         }
 
+
         Timber.i("Placemark Activity started...")
         //val pricebutton = binding.sellable.isChecked
+
+        //drop down array
+        val artForms = arrayOf("Painting", "Drawing", "Sculpture", "Printmaking", "Photography", "Film", "Architecture", "Design", "Textiles", "Ceramics")
+
+        val spinner = findViewById<Spinner>(R.id.arttypeSpinner)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, artForms)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
 
         binding.priceField.isVisible = false
         binding.sellableswitch.setOnClickListener{
@@ -84,6 +96,7 @@ class AddPost : AppCompatActivity() {
             }
             post.title = binding.postTitle.text.toString()
             post.description = binding.postDesc.text.toString()
+            post.type = binding.arttypeSpinner.toString()
 
             post.price = binding.priceField.text.toString().toInt()
 
@@ -93,7 +106,10 @@ class AddPost : AppCompatActivity() {
                 Timber.i("added post: ")
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                for (i in socialmediaapp.posts.indices)
-                { i("post[$i]:${this.socialmediaapp.posts[i]}") }
+                {
+                   i("post[$i]:${this.socialmediaapp.posts[i]}")
+               println("post[$i]:${this.socialmediaapp.posts[i]}")
+               }
                 setResult(RESULT_OK)
                 finish()
             } else{
