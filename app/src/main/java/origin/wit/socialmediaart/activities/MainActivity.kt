@@ -59,9 +59,13 @@ class MainActivity : AppCompatActivity(), PostListener {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.additembutton -> {
+                    Timber.i("add button pressed")
+                    println("add button pressed")
 
                     startActivity(Intent(applicationContext, AddPost::class.java))
+                    //item.setIcon(R.drawable.profile__1_)
                     overridePendingTransition(0, 0)
+
                     return@setOnNavigationItemSelectedListener true
                 }
 //                R.id.searchbutton -> {
@@ -117,7 +121,7 @@ class MainActivity : AppCompatActivity(), PostListener {
 
     override fun onPostClick(post: Post) {
         val launcherIntent = Intent(this, AddPost::class.java)
-        launcherIntent.putExtra("placemark_edit", post)
+        launcherIntent.putExtra("post_edit", post)
         getClickResult.launch(launcherIntent)
     }
 }

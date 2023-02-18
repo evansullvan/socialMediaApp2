@@ -56,8 +56,10 @@
         android:layout_margin="15dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/navbar_rounded"
-        app:itemIconTint="@color/light_grey"
+        app:itemIconTint="@color/white"
         app:itemTextColor="#FFFFFF"
+        app:labelVisibilityMode="unlabeled"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

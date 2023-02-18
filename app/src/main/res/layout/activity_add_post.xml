@@ -116,12 +116,15 @@ android:elevation="12dp"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="15dp"
         android:layout_marginVertical="10dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/navbar_rounded"
-        app:itemIconTint="@color/light_grey"
+        app:itemIconTint="@color/white"
         app:itemTextColor="#FFFFFF"
+
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_navigation"
-        tools:layout_editor_absoluteX="15dp" />
+        tools:layout_editor_absoluteX="16dp" />
 
     <View
         android:id="@+id/divider2"
