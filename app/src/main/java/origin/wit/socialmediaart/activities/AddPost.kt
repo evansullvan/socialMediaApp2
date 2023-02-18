@@ -44,7 +44,9 @@ class AddPost : AppCompatActivity() {
         binding.topTextView.text = "Create new post"
         binding.postButton.text = "Post"
 
+
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+
             when (item.itemId) {
                 R.id.homebutton -> {
                     Timber.i("home button pressed")
@@ -54,7 +56,8 @@ class AddPost : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.additembutton -> {
-
+                    Timber.i("add button pressed")
+                    println("add button pressed")
                    // startActivity(Intent(applicationContext, AddPost::class.java))
                    // bottomNavigationView.selectedItemId = R.id.additembutton
                    // overridePendingTransition(0, 0)
@@ -93,8 +96,8 @@ class AddPost : AppCompatActivity() {
 
             }
         }
-        if (intent.hasExtra("placemark_edit")) {
-            post = intent.extras?.getParcelable("placemark_edit")!!
+        if (intent.hasExtra("post_edit")) {
+            post = intent.extras?.getParcelable("post_edit")!!
             binding.postTitle.setText(post.title)
             binding.postDesc.setText(post.description)
 
