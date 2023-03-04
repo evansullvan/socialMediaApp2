@@ -1,6 +1,7 @@
 package origin.wit.socialmediaart.activities
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -13,9 +14,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivityMainBinding
@@ -23,6 +26,8 @@ import origin.wit.socialmediaart.databinding.PostCardBinding
 import origin.wit.socialmediaart.main.MainApp
 import origin.wit.socialmediaart.models.Post
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 private lateinit var socialmediaapp: MainApp
 
@@ -30,14 +35,17 @@ class MainActivity : AppCompatActivity(), PostListener {
     lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
 
-    //private lateinit var deletePostButton : Button
+    private lateinit var refreshPostButton : Button
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNavigationView = findViewById(R.id.bottomNavbar)
-        //deletePostButton = findViewById(R.id.DeletePostBtn)
+
+        refreshPostButton = findViewById(R.id.refreshBtn)
+
         socialmediaapp = application as MainApp
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
@@ -75,6 +83,11 @@ class MainActivity : AppCompatActivity(), PostListener {
 //                }
                 else -> return@setOnNavigationItemSelectedListener false
             }
+        }
+
+        //refresh when delete is pressed
+        refreshPostButton.setOnClickListener {
+            binding.recyclerView.adapter?.notifyDataSetChanged()
         }
 
 
@@ -124,6 +137,13 @@ class MainActivity : AppCompatActivity(), PostListener {
         launcherIntent.putExtra("post_edit", post)
         getClickResult.launch(launcherIntent)
     }
+
+
+
+
+
+
+
 }
 
 interface PostListener {
@@ -132,6 +152,7 @@ interface PostListener {
 
 class PostAdapter constructor(private var posts: List<Post>,private val listener:PostListener) :
     RecyclerView.Adapter<PostAdapter.MainHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = PostCardBinding
@@ -154,8 +175,15 @@ class PostAdapter constructor(private var posts: List<Post>,private val listener
             binding.postTitle.text = post.title
             binding.postdescription.text = post.description
             binding.pricedisplay.text = post.price.toString()
+
+            //using instagrams timestamp
+            binding.TimeStampView.text = TimeAgo.using(post.timestamp)
+
+            //delete button
             binding.DeletePostBtn.setOnClickListener() {
                 socialmediaapp.posts.remove(post)
+
+
             }
             binding.root.setOnClickListener { listener.onPostClick(post) }
         }

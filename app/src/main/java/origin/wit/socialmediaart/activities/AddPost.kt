@@ -96,6 +96,9 @@ class AddPost : AppCompatActivity() {
 
             }
         }
+
+
+        //edit post
         if (intent.hasExtra("post_edit")) {
             post = intent.extras?.getParcelable("post_edit")!!
             binding.postTitle.setText(post.title)
@@ -111,6 +114,8 @@ class AddPost : AppCompatActivity() {
             binding.topTextView.text = "Update post"
             binding.postButton.text = "Update"
         }
+
+
         binding.postButton.setOnClickListener() {
             Timber.i("add Button Pressed: ")
 
@@ -120,6 +125,7 @@ class AddPost : AppCompatActivity() {
             post.title = binding.postTitle.text.toString()
             post.description = binding.postDesc.text.toString()
             post.type = binding.arttypeSpinner.toString()
+            post.timestamp = post.timestamp
 if(binding.sellableswitch.isChecked){
     post.price = binding.priceField.text.toString().toInt()
 }else {

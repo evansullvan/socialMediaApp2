@@ -53,8 +53,8 @@
         android:id="@+id/bottomNavbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_margin="15dp"
         android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
         android:background="@drawable/navbar_rounded"
         app:itemIconTint="@color/white"
         app:itemTextColor="#FFFFFF"
@@ -63,7 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom_navigation" >
+        app:menu="@menu/menu_bottom_navigation">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
@@ -100,6 +100,21 @@
         app:layout_constraintBottom_toBottomOf="@+id/titlebar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/refreshBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+       android:background="#00000000"
+        android:drawableLeft="@drawable/refresh_icon"
+        android:paddingLeft="8dp"
+
+        android:text=""
+
+        app:layout_constraintStart_toStartOf="@+id/titlebar"
+        app:layout_constraintTop_toTopOf="@+id/titlebar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
