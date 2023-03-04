@@ -91,6 +91,7 @@ android:layout_marginStart="15dp"
             android:layout_marginStart="3dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/textView2"
+            android:textColor="@color/black"
             android:text="TextView" />
 
         <Button
@@ -111,6 +112,16 @@ android:background="@drawable/fully_rounded"
             android:layout_above="@+id/imageView"
             android:layout_marginBottom="5dp"
             android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/TimeStampView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/postdescription"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/grey"
+            android:text="TextView" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
