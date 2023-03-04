@@ -113,37 +113,91 @@ class AddPost : AppCompatActivity() {
             binding.arttypeSpinner.setSelection(adapter.getPosition(post.type.toString()))
             binding.topTextView.text = "Update post"
             binding.postButton.text = "Update"
+          if(post.price!! >0){
+            binding.priceField.isVisible = true
+
+              }else{
+              binding.priceField.isVisible = false
+             // binding.priceField.setText(0)
+          }
+//            binding.postButton.setOnClickListener() {
+//                post.title = binding.postTitle.text.toString()
+//                post.id = post.id
+//                post.forSale = binding.sellableswitch.toString().toBoolean()
+//                post.description = binding.postDesc.text.toString()
+//                post.type = binding.arttypeSpinner.toString()
+//                post.price = binding.priceField.text.toString().toInt()
+////                if(binding.sellableswitch.isChecked){
+////                    post.price = binding.priceField.text.toString().toInt()
+////                }else {
+////                    post.price = 0
+////                }
+//                socialmediaapp.posts.update(Post(post.id,post.title,post.description,post.type,post.forSale,post.price))
+//                socialmediaapp.posts.posts.forEach {
+//                    Timber.i(it.toString())
+//                }
+//            }
         }
 
 
         binding.postButton.setOnClickListener() {
             Timber.i("add Button Pressed: ")
 
-            if(post.title.isNullOrBlank() && post.description.isNullOrBlank()){
-                Snackbar.make(it,"please dont leave empty fields", Snackbar.LENGTH_LONG).show()
-            }
-            post.title = binding.postTitle.text.toString()
-            post.description = binding.postDesc.text.toString()
-            post.type = binding.arttypeSpinner.toString()
-            post.timestamp = post.timestamp
-if(binding.sellableswitch.isChecked){
-    post.price = binding.priceField.text.toString().toInt()
-}else {
-    post.price = 0
-}
+
+
+//            if (binding.postTitle.text.toString().isEmpty() == true) {
+//                Snackbar.make(it, "please dont leave the title empty", Snackbar.LENGTH_LONG).show()
+//            }
+//            if (binding.postDesc.text.toString().isEmpty() == true) {
+//                Snackbar.make(it, "please dont leave the description empty", Snackbar.LENGTH_LONG)
+//                    .show()
+//            }
+//            if (binding.priceField.text.toString().isEmpty() == true || post.price!! < 0) {
+//                Snackbar.make(it, "please dont leave the price empty", Snackbar.LENGTH_LONG).show()
+//            } else {
+
+
+                post.title = binding.postTitle.text.toString()
+                post.description = binding.postDesc.text.toString()
+                post.type = binding.arttypeSpinner.toString()
+                post.timestamp = post.timestamp
+                if (binding.sellableswitch.isChecked) {
+                    post.price = binding.priceField.text.toString().toInt()
+
+                } else {
+                    post.price = 0
+                }
 
 
 
-            if(title.isNotEmpty() && post.description!!.isNotEmpty()) {
-                socialmediaapp.posts.create(post.copy())
-                Timber.i("added post: ")
-                startActivity(Intent(applicationContext, MainActivity::class.java))
+                if (title.isNotEmpty() && post.description!!.isNotEmpty()) {
+                    if (binding.postButton.text == "Update") {
+                        i("using update method")
+                        socialmediaapp.posts.update(
+                            Post(
+                                post.id,
+                                post.title,
+                                post.description,
+                                post.type,
+                                post.forSale,
+                                post.price
+                            )
+                        )
+                        //socialmediaapp.posts.update(post.copy())
+                    } else {
+                        i("using create method")
+                        socialmediaapp.posts.create(post.copy())
 
-                setResult(RESULT_OK)
-                finish()
-            } else{
-                Snackbar.make(it,"please dont leave empty fields", Snackbar.LENGTH_LONG).show()
-            }
+                        Timber.i("added post: " + post.id)
+                    }
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+
+                    setResult(RESULT_OK)
+                    finish()
+                } else {
+                    Snackbar.make(it, "please dont leave empty fields", Snackbar.LENGTH_LONG).show()
+                }
+          //  }
         }
     }
 

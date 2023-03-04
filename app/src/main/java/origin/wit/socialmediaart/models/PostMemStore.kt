@@ -26,6 +26,10 @@ class PostMemStore:PostStore {
         if (foundPost != null) {
             foundPost.title = post.title
             foundPost.description = post.description
+            foundPost.price = post.price
+            foundPost.forSale = post.forSale
+            foundPost.type = post.type
+            foundPost.id = foundPost.id
             logAll()
         }
     }
