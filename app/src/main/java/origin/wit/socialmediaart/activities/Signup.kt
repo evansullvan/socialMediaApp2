@@ -6,30 +6,34 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import origin.wit.socialmediaart.R
-import origin.wit.socialmediaart.databinding.ActivityLoginBinding
+import origin.wit.socialmediaart.databinding.ActivityAddPostBinding
 import origin.wit.socialmediaart.databinding.ActivitySignupBinding
 import origin.wit.socialmediaart.main.MainApp
 import timber.log.Timber
 
-class Login_Activity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+
+class Signup : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySignupBinding
     lateinit var socialmediaapp: MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
         socialmediaapp = application as MainApp
         Timber.plant(Timber.DebugTree())
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.darkNavy_accent)
-        }//changes status bar color to navy for login page
+            window.statusBarColor = ContextCompat.getColor(this, R.color.main_yellow)
+        }
 
-        binding.LoginBtn.setOnClickListener() {
+        binding.signupBtn.setOnClickListener() {
             startActivity(Intent(applicationContext, MainActivity::class.java))
         }
 
-
+        binding.goToLoginPageBtn.setOnClickListener(){
+            startActivity(Intent(applicationContext, Login_Activity::class.java))
+        }
     }
 }
