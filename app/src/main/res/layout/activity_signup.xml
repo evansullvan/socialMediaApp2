@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Login_Activity"
+    android:background="@color/main_yellow"
+    tools:context=".activities.Signup"
     android:fitsSystemWindows="true">
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="665dp"
@@ -16,16 +18,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26"
-        app:srcCompat="@drawable/login_background" />
+        app:layout_constraintVertical_bias="0.253"
+        app:srcCompat="@drawable/signup_background" />
 
     <TextView
         android:id="@+id/loginTitle"
-        android:layout_width="274dp"
+        android:layout_width="340dp"
         android:layout_height="126dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/login_title"
+        android:text="@string/signup_title"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -38,14 +40,14 @@
 
     <TextView
         android:id="@+id/loginTitleBackground"
-        android:layout_width="274dp"
+        android:layout_width="340dp"
         android:layout_height="126dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/login_title"
+        android:text="@string/signup_title"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/main_yellow"
+        android:textColor="@color/darkNavy_accent"
         android:textSize="65sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,19 +57,18 @@
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="0dp"
         android:layout_height="73dp"
-        android:layout_marginTop="80dp"
-
         android:layout_marginHorizontal="30dp"
-        android:backgroundTint="@color/main_yellow"
+        android:backgroundTint="@color/darkNavy_accent"
         android:ems="10"
         android:hint="@string/login_signup_enter_email"
         android:inputType="textEmailAddress"
-        android:textColorHint="@color/main_yellow"
+        android:textColorHint="@color/darkNavy_accent"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -77,8 +78,8 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginHorizontal="0dp"
-        android:backgroundTint="@color/main_yellow"
-        android:textColorHint="@color/main_yellow"
+        android:backgroundTint="@color/darkNavy_accent"
+        android:textColorHint="@color/darkNavy_accent"
         android:ems="10"
         android:hint="@string/login_signup_enter_password"
         android:inputType="textPassword"
@@ -87,15 +88,73 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
 
     <Button
-        android:id="@+id/LoginBtn"
+        android:id="@+id/signupBtn"
         android:layout_width="180dp"
         android:layout_height="60dp"
-        android:text="@string/login_title"
         android:layout_marginTop="30dp"
         android:background="@drawable/fully_rounded"
+
         android:elevation="12dp"
+        android:text="@string/signup_title"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="0dp"
+        android:layout_height="73dp"
+        android:layout_marginHorizontal="0dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/login_signup_enter_first"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/darkNavy_accent"
+        android:textColorHint="@color/darkNavy_accent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/loginTitle" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:text="@string/alreadyhaveanaccountlogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
+
+    <TextView
+        android:id="@+id/goToLoginPageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/login_title"
+        android:textColor="#000EFF"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName3"
+        android:layout_width="0dp"
+        android:layout_height="73dp"
+        android:layout_marginHorizontal="0dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:inputType="textPersonName"
+        android:backgroundTint="@color/darkNavy_accent"
+        android:textColorHint="@color/darkNavy_accent"
+        android:hint="@string/login_signup_enter_second"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
