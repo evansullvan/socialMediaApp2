@@ -184,6 +184,7 @@ class PostAdapter constructor(private var posts: List<Post>,private val listener
                 socialmediaapp.posts.remove(post)
 
 
+
             }
             binding.root.setOnClickListener { listener.onPostClick(post) }
         }
