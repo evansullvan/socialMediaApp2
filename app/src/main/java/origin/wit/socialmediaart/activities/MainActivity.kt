@@ -76,11 +76,11 @@ class MainActivity : AppCompatActivity(), PostListener {
 
                     return@setOnNavigationItemSelectedListener true
                 }
-//                R.id.searchbutton -> {
-//                    startActivity(Intent(applicationContext, SearchActivity::class.java))
-//                    overridePendingTransition(0, 0)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
+                R.id.profilebutton -> {
+                    startActivity(Intent(applicationContext, Profile::class.java))
+                    overridePendingTransition(0, 0)
+                    return@setOnNavigationItemSelectedListener true
+                }
                 else -> return@setOnNavigationItemSelectedListener false
             }
         }

@@ -57,6 +57,7 @@ class Signup : AppCompatActivity() {
                     userStorage.addUser(User(user.id,user.firstName,user.secondName,user.userEmail,user.userPassword))
                     //().toString())
                     startActivity(Intent(applicationContext, MainActivity::class.java))
+
                     Timber.i("user added "+ user.id+ "User name: "+user.firstName+" "+user.secondName)
                     setResult(RESULT_OK)
                     finish()
