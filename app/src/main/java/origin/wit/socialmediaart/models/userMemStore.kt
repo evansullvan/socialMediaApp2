@@ -17,4 +17,12 @@ class userMemStore {
         users.remove(user.userEmail)
     }
 
+     fun getAllUsers(): HashMap<String,User> {
+        return users
+    }
+
+}
+
+private operator fun <K, V> HashMap<K, V>.set(userEmail: K?, value: V) {
+
 }
