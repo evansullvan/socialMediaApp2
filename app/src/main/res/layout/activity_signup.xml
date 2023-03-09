@@ -23,15 +23,15 @@
 
     <TextView
         android:id="@+id/loginTitle"
-        android:layout_width="340dp"
-        android:layout_height="126dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="@string/signup_title"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="65sp"
+        android:textSize="50sp"
         android:translationX="4dp"
         android:translationY="3dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,15 +40,15 @@
 
     <TextView
         android:id="@+id/loginTitleBackground"
-        android:layout_width="340dp"
-        android:layout_height="126dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="@string/signup_title"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/darkNavy_accent"
-        android:textSize="65sp"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,8 +56,9 @@
     <EditText
         android:id="@+id/editTextTextEmailAddressSignup"
         android:layout_width="0dp"
-        android:layout_height="73dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/darkNavy_accent"
         android:ems="10"
         android:hint="@string/login_signup_enter_email"
@@ -73,8 +74,8 @@
     <EditText
         android:id="@+id/editTextTextPasswordSignup"
         android:layout_width="0dp"
-        android:layout_height="73dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginHorizontal="0dp"
@@ -89,8 +90,9 @@
 
     <Button
         android:id="@+id/signupBtn"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/fully_rounded"
 
@@ -104,9 +106,9 @@
     <EditText
         android:id="@+id/enterFirstNameSignup"
         android:layout_width="0dp"
-        android:layout_height="73dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="0dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/login_signup_enter_first"
@@ -127,7 +129,7 @@
         android:text="@string/alreadyhaveanaccountlogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/signupWithGoogleBtn" />
 
     <TextView
         android:id="@+id/goToLoginPageBtn"
@@ -138,14 +140,14 @@
         android:text="@string/login_title"
         android:textColor="#000EFF"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/signupWithGoogleBtn" />
 
     <EditText
         android:id="@+id/enterSecondNameSignup"
         android:layout_width="0dp"
-        android:layout_height="73dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="0dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -156,5 +158,22 @@
         app:layout_constraintEnd_toEndOf="@+id/enterFirstNameSignup"
         app:layout_constraintStart_toStartOf="@+id/enterFirstNameSignup"
         app:layout_constraintTop_toBottomOf="@+id/enterFirstNameSignup" />
+
+    <Button
+        android:id="@+id/signupWithGoogleBtn"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="0dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/light_grey"
+        android:elevation="12dp"
+        android:text="@string/continueWithGoogle"
+        android:textColor="@color/black"
+        android:drawableLeft="@drawable/google_icon"
+
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextPasswordSignup"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPasswordSignup"
+        app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

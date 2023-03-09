@@ -45,6 +45,7 @@ class AddPost : AppCompatActivity() {
         binding.postButton.text = "Post"
 
 
+
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
 
             when (item.itemId) {

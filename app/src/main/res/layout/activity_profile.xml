@@ -13,4 +13,23 @@
         android:text="TextView"
         tools:layout_editor_absoluteX="511dp"
         tools:layout_editor_absoluteY="208dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/navbar_rounded"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="#FFFFFF"
+        app:labelVisibilityMode="unlabeled"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom_navigation">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

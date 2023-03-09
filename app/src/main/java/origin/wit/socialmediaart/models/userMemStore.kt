@@ -21,6 +21,17 @@ class userMemStore {
         return users
     }
 
+    fun getUser(useremail:String): User {
+        var userholder:User = User()
+
+       for(user in users){
+           if(user.key.equals(useremail)){
+               userholder = user.value
+           }
+       }
+        return userholder
+    }
+
 }
 
 private operator fun <K, V> HashMap<K, V>.set(userEmail: K?, value: V) {
