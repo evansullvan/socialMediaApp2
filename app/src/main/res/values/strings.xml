@@ -8,7 +8,7 @@
     <string name="cart_button">cart</string>
     <string name="add_button">+</string>
     <string name="search_button">search</string>
-    <string name="profile_button">profile</string>
+    <string name="profile_button">Profile</string>
     <string name="login_title">LOGIN</string>
     <string name="signup_title">SIGNUP</string>
     <string name="login_signup_enter_email">Email</string>
