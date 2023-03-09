@@ -14,5 +14,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="colorPrimary">@color/main_yellow</item>
+        <item name="colorPrimaryDark">@color/main_yellow</item>
+        <item name="colorAccent">@color/main_yellow</item>
+        <item name="android:statusBarColor">@color/main_yellow</item>
+    </style>
+
 
 </resources>
