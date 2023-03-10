@@ -11,6 +11,7 @@
     <string name="profile_button">Profile</string>
     <string name="login_title">LOGIN</string>
     <string name="signup_title">SIGNUP</string>
+    <string name="signout_title">Sign Out</string>
     <string name="login_signup_enter_email">Email</string>
     <string name="login_signup_enter_first">First Name</string>
     <string name="login_signup_enter_second">Second Name</string>
