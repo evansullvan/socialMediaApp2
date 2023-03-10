@@ -15,6 +15,9 @@ import androidx.core.view.isVisible
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivityAddPostBinding
 import origin.wit.socialmediaart.databinding.ActivityMainBinding
@@ -30,6 +33,7 @@ class AddPost : AppCompatActivity() {
     lateinit var socialmediaapp: MainApp
     private var post = Post()
     private lateinit var binding: ActivityAddPostBinding
+    private lateinit var auth: FirebaseAuth
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,7 @@ class AddPost : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottomNavbar)
         socialmediaapp = application as MainApp
         Timber.plant(Timber.DebugTree())
+        auth = Firebase.auth
 
         binding.topTextView.text = "Create new post"
         binding.postButton.text = "Post"
@@ -168,6 +173,7 @@ class AddPost : AppCompatActivity() {
                 } else {
                     post.price = 0
                 }
+            post.userEmail = auth.currentUser?.email
 
 
 
@@ -177,6 +183,7 @@ class AddPost : AppCompatActivity() {
                         socialmediaapp.posts.update(
                             Post(
                                 post.id,
+                                post.userEmail,
                                 post.title,
                                 post.description,
                                 post.type,
@@ -189,7 +196,7 @@ class AddPost : AppCompatActivity() {
                         i("using create method")
                         socialmediaapp.posts.create(post.copy())
 
-                        Timber.i("added post: " + post.id)
+                        Timber.i("added post: " + post.id + " "+ post.userEmail)
                     }
                     startActivity(Intent(applicationContext, MainActivity::class.java))
 
