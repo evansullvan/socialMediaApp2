@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "695723385917",
+    "project_id": "artmart-97301",
+    "storage_bucket": "artmart-97301.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695723385917:android:48de6cc1f8d8b22845b654",
+        "android_client_info": {
+          "package_name": "origin.wit.socialmediaart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695723385917-kkgbe9abg5lcqvr13rfjc5d85uf44cam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGewZlaFHjU6P5ELA7lsQFJ_qRC-Ej38Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695723385917-kkgbe9abg5lcqvr13rfjc5d85uf44cam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
