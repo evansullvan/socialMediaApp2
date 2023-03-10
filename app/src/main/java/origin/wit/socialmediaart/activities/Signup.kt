@@ -103,7 +103,7 @@ class Signup : AppCompatActivity() {
 
 
         val userEmail = binding.editTextTextEmailAddressSignup.text.toString()
-        val password = binding.editTextTextPasswordSignup.text.toString()
+        val userpassword = binding.editTextTextPasswordSignup.text.toString()
 
 //        if (user.firstName!!.isBlank() || user.secondName!!.isBlank() || user.userEmail!!.isBlank() || user.userPassword!!.isBlank()) {
 //            Toast.makeText(this, "please dont leave any empty fields", Toast.LENGTH_SHORT).show()
@@ -114,7 +114,8 @@ class Signup : AppCompatActivity() {
 //
 //            }
 
-            auth.createUserWithEmailAndPassword(userEmail, password)
+
+            auth.createUserWithEmailAndPassword(userEmail, userpassword)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
@@ -130,7 +131,7 @@ class Signup : AppCompatActivity() {
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Error occured ${it.localizedMessage}", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "${it.localizedMessage}", Toast.LENGTH_SHORT)
                         .show()
                 }
         }

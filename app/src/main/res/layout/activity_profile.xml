@@ -40,6 +40,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,7 +98,7 @@
 <!--        tools:srcCompat="@drawable/newlogo" />-->
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/userEmailDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -121,6 +122,18 @@
         android:textAlignment="center"
         android:textColor="@color/medium_grey"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/userEmailDisplay" />
+
+    <TextView
+        android:id="@+id/signoutBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:text="@string/signout_title"
+        android:textColor="@color/main_yellow"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/titlebar2"
+        app:layout_constraintEnd_toEndOf="@+id/titlebar2"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

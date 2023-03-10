@@ -58,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="90dp"
         android:backgroundTint="@color/darkNavy_accent"
         android:ems="10"
         android:hint="@string/login_signup_enter_email"
@@ -69,21 +69,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterSecondNameSignup" />
+        app:layout_constraintTop_toBottomOf="@+id/loginTitle" />
 
     <EditText
         android:id="@+id/editTextTextPasswordSignup"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_marginHorizontal="0dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/darkNavy_accent"
-        android:textColorHint="@color/darkNavy_accent"
         android:ems="10"
         android:hint="@string/login_signup_enter_password"
         android:inputType="textPassword"
+        android:textColorHint="@color/darkNavy_accent"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddressSignup"
         app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddressSignup"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddressSignup" />
@@ -103,29 +103,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordSignup" />
 
-    <EditText
-        android:id="@+id/enterFirstNameSignup"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="0dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/login_signup_enter_first"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:backgroundTint="@color/darkNavy_accent"
-        android:textColorHint="@color/darkNavy_accent"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddressSignup"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddressSignup"
-        app:layout_constraintTop_toBottomOf="@+id/loginTitle" />
-
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/alreadyhaveanaccountlogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,28 +119,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/login_title"
         android:textColor="#000EFF"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/signupWithGoogleBtn" />
-
-    <EditText
-        android:id="@+id/enterSecondNameSignup"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="0dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:inputType="textPersonName"
-        android:backgroundTint="@color/darkNavy_accent"
-        android:textColorHint="@color/darkNavy_accent"
-        android:hint="@string/login_signup_enter_second"
-        app:layout_constraintEnd_toEndOf="@+id/enterFirstNameSignup"
-        app:layout_constraintStart_toStartOf="@+id/enterFirstNameSignup"
-        app:layout_constraintTop_toBottomOf="@+id/enterFirstNameSignup" />
 
     <Button
         android:id="@+id/signupWithGoogleBtn"
