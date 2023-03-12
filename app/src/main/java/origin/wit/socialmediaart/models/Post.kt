@@ -2,11 +2,11 @@ package origin.wit.socialmediaart.models
 
 import android.os.Parcelable
 import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
-@Parcelize
-data class Post (var id: Long = 0,var userEmail:String?=null,var title:String?= null, var description:String?=null,var type:String?=null, var forSale:Boolean=false, var price:Int?=null, var timestamp: Long = System.currentTimeMillis(),var postUser:String?=null) :
-    Parcelable
+
+data class Post (var title:String = "", var description:String = "",var type:String = "", var forSale:Boolean=false, var price:Int = 0,var user:User?=null, var timestamp: Long = System.currentTimeMillis())
 
 

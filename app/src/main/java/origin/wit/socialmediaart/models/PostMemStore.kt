@@ -15,23 +15,36 @@ class PostMemStore:PostStore {
         return posts
     }
 
+    fun findPostWithEmail(email:String): List<Post>{
+//        var postholder:Post = Post()
+//        val emailPostsarray = ArrayList<Post>()
+//
+//        for(post in posts){
+//            if(post.userEmail.equals(email)){
+//                emailPostsarray.add(post)
+//            }
+//        }
+//        return emailPostsarray
+        return ArrayList<Post>()
+    }
+
     override fun create(post: Post) {
-        post.id = getId()
-        posts.add(0,post)
+//        post.id = getId()
+//        posts.add(0,post)
 
     }
 
     override fun update(post: Post) {
-        var foundPost: Post? = posts.find { p -> p.id == post.id }
-        if (foundPost != null) {
-            foundPost.title = post.title
-            foundPost.description = post.description
-            foundPost.price = post.price
-            foundPost.forSale = post.forSale
-            foundPost.type = post.type
-            foundPost.id = foundPost.id
-            logAll()
-        }
+//        var foundPost: Post? = posts.find { p -> p.id == post.id }
+//        if (foundPost != null) {
+//            foundPost.title = post.title
+//            foundPost.description = post.description
+//            foundPost.price = post.price
+//            foundPost.forSale = post.forSale
+//            foundPost.type = post.type
+//
+//            logAll()
+//        }
     }
 
     fun remove(post: Post) {

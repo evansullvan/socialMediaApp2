@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivitySignupBinding
@@ -26,7 +27,7 @@ class Signup : AppCompatActivity() {
     lateinit var socialmediaapp: MainApp
     private var user = User()
     private lateinit var auth: FirebaseAuth
-
+    private lateinit var firebaseDb:FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +35,11 @@ class Signup : AppCompatActivity() {
         setContentView(binding.root)
         socialmediaapp = application as MainApp
         Timber.plant(Timber.DebugTree())
-
+        firebaseDb = FirebaseFirestore.getInstance()
         auth = Firebase.auth
-
+        if(auth.currentUser != null){
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+        }
 
 
 
@@ -113,11 +116,24 @@ class Signup : AppCompatActivity() {
 //                    .show()
 //
 //            }
-
+        val newUser = hashMapOf(
+            "userEmail" to userEmail,
+            "userPassword" to userpassword
+        )
 
             auth.createUserWithEmailAndPassword(userEmail, userpassword)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
+                        firebaseDb.collection("users")
+                            .document()
+                            .set(newUser)
+                            .addOnSuccessListener {
+                                println("User added to Firestore")
+                            }
+                            .addOnFailureListener {
+                                println(it)
+                            }
+
                         // Sign in success, update UI with the signed-in user's information
                         startActivity(Intent(applicationContext, MainActivity::class.java))
                     } else {

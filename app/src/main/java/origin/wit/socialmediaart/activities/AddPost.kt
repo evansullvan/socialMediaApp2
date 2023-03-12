@@ -17,12 +17,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivityAddPostBinding
 import origin.wit.socialmediaart.databinding.ActivityMainBinding
 import origin.wit.socialmediaart.main.MainApp
 import origin.wit.socialmediaart.models.Post
+import origin.wit.socialmediaart.models.User
 import timber.log.Timber
 import timber.log.Timber.i
 
@@ -34,6 +40,9 @@ class AddPost : AppCompatActivity() {
     private var post = Post()
     private lateinit var binding: ActivityAddPostBinding
     private lateinit var auth: FirebaseAuth
+private lateinit var storageReference: StorageReference
+private lateinit var firestoreDB: FirebaseFirestore
+    private var signedInUser: User?=null
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +54,18 @@ class AddPost : AppCompatActivity() {
         socialmediaapp = application as MainApp
         Timber.plant(Timber.DebugTree())
         auth = Firebase.auth
+        val currentUser = Firebase.auth.currentUser
+        storageReference = FirebaseStorage.getInstance().reference
+        firestoreDB = FirebaseFirestore.getInstance()
 
         binding.topTextView.text = "Create new post"
         binding.postButton.text = "Post"
+        firestoreDB.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser?.uid as String)
+            .get()
+            .addOnSuccessListener { userSnapshot ->
+                signedInUser = userSnapshot.toObject(User::class.java)
+
 
 
 
@@ -57,19 +75,20 @@ class AddPost : AppCompatActivity() {
                 R.id.homebutton -> {
                     Timber.i("home button pressed")
                     println("home button pressed")
-                     startActivity(Intent(applicationContext, MainActivity::class.java))
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
                     overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.additembutton -> {
                     Timber.i("add button pressed")
                     println("add button pressed")
-                   // startActivity(Intent(applicationContext, AddPost::class.java))
-                   // bottomNavigationView.selectedItemId = R.id.additembutton
-                   // overridePendingTransition(0, 0)
+                    // startActivity(Intent(applicationContext, AddPost::class.java))
+                    // bottomNavigationView.selectedItemId = R.id.additembutton
+                    // overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
                 }
-                 R.id.profilebutton -> {
+                R.id.profilebutton -> {
+                    i("signed in user: " + signedInUser)
                     startActivity(Intent(applicationContext, Profile::class.java))
                     overridePendingTransition(0, 0)
                     return@setOnNavigationItemSelectedListener true
@@ -149,8 +168,6 @@ class AddPost : AppCompatActivity() {
         binding.postButton.setOnClickListener() {
             Timber.i("add Button Pressed: ")
 
-
-
 //            if (binding.postTitle.text.toString().isEmpty() == true) {
 //                Snackbar.make(it, "please dont leave the title empty", Snackbar.LENGTH_LONG).show()
 //            }
@@ -173,40 +190,50 @@ class AddPost : AppCompatActivity() {
                 } else {
                     post.price = 0
                 }
-            post.userEmail = auth.currentUser?.email
+                   //post.userEmail = auth.currentUser?.email
 
 
 
                 if (title.isNotEmpty() && post.description!!.isNotEmpty()) {
                     if (binding.postButton.text == "Update") {
                         i("using update method")
-                        socialmediaapp.posts.update(
-                            Post(
-                                post.id,
-                                post.userEmail,
-                                post.title,
-                                post.description,
-                                post.type,
-                                post.forSale,
-                                post.price
-                            )
-                        )
+                       // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
                         //socialmediaapp.posts.update(post.copy())
                     } else {
                         i("using create method")
-                        socialmediaapp.posts.create(post.copy())
+                       // socialmediaapp.posts.create(post.copy())
+                        firestoreDB.collection("posts").add(
+                            Post(
+                                post.title, post.description, post.type, post.forSale, post.price,signedInUser
+                            )
+                        )
+                            .addOnCompleteListener{
+                                postCreateTask ->
+                                if(!postCreateTask.isSuccessful){
+                                    Snackbar.make(it, "Couldn't upload Post", Snackbar.LENGTH_LONG).show()
+                                    Timber.i("added unsuccessfully")
+                                }else{
+                                    Snackbar.make(it, "Success", Snackbar.LENGTH_LONG).show()
+                                    val profileIntent = Intent(applicationContext,Profile::class.java )
+                                    profileIntent.putExtra(EXTRA_USEREMAIL, signedInUser?.userEmail)
+                                    //startActivity(Intent(applicationContext, MainActivity::class.java))
+                                    setResult(RESULT_OK)
+                                    finish()
+                                }
+                            }
 
-                        Timber.i("added post: " + post.id + " "+ post.userEmail)
+                        Timber.i("added post: " + post.type + " "+ post.title)
                     }
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
 
-                    setResult(RESULT_OK)
-                    finish()
+
+
                 } else {
                     Snackbar.make(it, "please dont leave empty fields", Snackbar.LENGTH_LONG).show()
                 }
           //  }
         }
+
+            }
     }
 
 
