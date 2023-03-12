@@ -3,26 +3,39 @@ package origin.wit.socialmediaart.activities
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivityProfileBinding
+import origin.wit.socialmediaart.databinding.PostCardBinding
+import origin.wit.socialmediaart.databinding.ProfilePostCardBinding
 import origin.wit.socialmediaart.main.MainApp
+import origin.wit.socialmediaart.models.Post
 import origin.wit.socialmediaart.models.User
 import timber.log.Timber
 
+private const val TAG = "ProfileActivity"
 
-class Profile : AppCompatActivity() {
+class Profile : AppCompatActivity(),PostListener {
 
     lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityProfileBinding
     lateinit var socialmediaapp: MainApp
-    val user = Firebase.auth.currentUser
+    val currentUser = Firebase.auth.currentUser
     private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseDb:FirebaseFirestore
+    private lateinit var posts:MutableList<Post>
+    private lateinit var adapter: PostAdapter
 
 
 
@@ -34,11 +47,45 @@ class Profile : AppCompatActivity() {
         setContentView(binding.root)
         bottomNavigationView = findViewById(R.id.bottomNavbar)
         socialmediaapp = application as MainApp
+//        val layoutManager = LinearLayoutManager(this)
+//        binding.recyclerView.layoutManager = layoutManager
+//      //  binding.recyclerView.adapter = PostAdapter(socialmediaapp.posts.findPostWithEmail(auth.currentUser?.email.toString()), this)
+//        binding.recyclerView.adapter = PostAdapter(this,socialmediaapp.posts.findAll())
+
+       // binding.recyclerView.setHasFixedSize(true)
+        firebaseDb = FirebaseFirestore.getInstance()
+        posts = mutableListOf()
+        adapter = PostAdapter(this,posts)
+
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        val postsReference = firebaseDb.collection("posts")
+            .limit(20)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+
+        postsReference.addSnapshotListener { snapshot, exception ->
+            if(exception != null || snapshot == null){
+                Log.e(TAG, "error when querying data",exception)
+                return@addSnapshotListener
+
+            }
+            val postList1 = snapshot.toObjects(Post::class.java)
+            posts.clear()
+            posts.addAll(postList1)
+            adapter.notifyDataSetChanged()
+
+            for(post in postList1){
+                Log.e(TAG,"post  ${post}")
+            }
+        }
+
         Timber.plant(Timber.DebugTree())
         auth = Firebase.auth
 
-        if (user != null) {
-            binding.userEmailDisplay.setText(user.email)
+        if (currentUser != null) {
+            binding.userEmailDisplay.setText(currentUser.email)
         } else {
             // No user is signed in
         }
@@ -94,4 +141,8 @@ class Profile : AppCompatActivity() {
 
 
     }
+
+
+
+//
 }
