@@ -39,13 +39,13 @@ private const val TAG = "MainActivity"
 private lateinit var socialmediaapp: MainApp
 
 class MainActivity : AppCompatActivity(), PostListener {
-    lateinit var bottomNavigationView: BottomNavigationView
+   // lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseDb:FirebaseFirestore
     private lateinit var posts:MutableList<Post>
     private lateinit var adapter: PostAdapter
     val currentUser = Firebase.auth.currentUser
-    private lateinit var refreshPostButton : Button
+
     private var signedInUser: User?=null
 
 
@@ -56,7 +56,12 @@ class MainActivity : AppCompatActivity(), PostListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        bottomNavigationView = findViewById(R.id.bottomNavbar)
+
+        //bottomNavigationView = binding.bottomNavbar
+
+//        binding.toolbar.title = title
+//        setSupportActionBar(binding.toolbar)
+
 firebaseDb = FirebaseFirestore.getInstance()
         posts = mutableListOf()
         adapter = PostAdapter(this,posts)
@@ -97,7 +102,8 @@ Log.e(TAG,"post  ${post}")
         }
 
 
-        refreshPostButton = findViewById(R.id.refreshBtn)
+        //refreshPostButton = findViewById(R.id.refreshBtn)
+
 
         socialmediaapp = application as MainApp
         val layoutManager = LinearLayoutManager(this)
@@ -108,40 +114,48 @@ Log.e(TAG,"post  ${post}")
 
         binding.recyclerView.setHasFixedSize(true)
 
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.homebutton -> {
-                    Timber.i("home button pressed")
-                    println("home button pressed")
-                    // startActivity(Intent(applicationContext, MainActivity::class.java))
-                    // bottomNavigationView.selectedItemId = R.id.homebutton
-                    //overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.additembutton -> {
-                    Timber.i("add button pressed")
-                    println("add button pressed")
-
-                    startActivity(Intent(applicationContext, AddPost::class.java))
-                    //item.setIcon(R.drawable.profile__1_)
-                    overridePendingTransition(0, 0)
-
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.profilebutton -> {
-                    startActivity(Intent(applicationContext, Profile::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                else -> return@setOnNavigationItemSelectedListener false
-            }
+        binding.addItem.setOnClickListener {
+            startActivity(Intent(applicationContext, AddPost::class.java))
         }
 
-        //refresh when delete is pressed
-        refreshPostButton.setOnClickListener {
-            binding.recyclerView.adapter?.notifyDataSetChanged()
-        }
+
+
+//        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+//            when (item.itemId) {
+//                R.id.homebutton -> {
+//                    Timber.i("home button pressed")
+//                    println("home button pressed")
+//                    // startActivity(Intent(applicationContext, MainActivity::class.java))
+//                    // bottomNavigationView.selectedItemId = R.id.homebutton
+//                    //overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.additembutton -> {
+//                    Timber.i("add button pressed")
+//                    println("add button pressed")
+//
+//                    startActivity(Intent(applicationContext, AddPost::class.java))
+//                    //item.setIcon(R.drawable.profile__1_)
+//                    overridePendingTransition(0, 0)
+//
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.profilebutton -> {
+//                    startActivity(Intent(applicationContext, Profile::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                else -> return@setOnNavigationItemSelectedListener false
+//            }
+//        }
+
+
+        binding.toolbar.title = ""
+        setSupportActionBar(binding.toolbar)
+
+
+
+
 
 
     }
@@ -153,8 +167,8 @@ Log.e(TAG,"post  ${post}")
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            origin.wit.socialmediaart.R.id.item_add -> {
-                val launcherIntent = Intent(this, AddPost::class.java)
+            origin.wit.socialmediaart.R.id.profile -> {
+                val launcherIntent = Intent(this, Profile ::class.java)
                 launcherIntent.putExtra(EXTRA_USEREMAIL, signedInUser?.userEmail)
                 getResult.launch(launcherIntent)
             }
@@ -233,18 +247,26 @@ interface PostListener {
             binding.postdescription.text = post.description
             binding.pricedisplay.text = post.price.toString()
             binding.postTitle.text = post.title
+binding.postKey.text = post.Id
 
             //using instagrams timestamp
             binding.TimeStampView.text = TimeAgo.using(post.timestamp)
 
             //delete button
-//            binding.DeletePostBtn.setOnClickListener() {
-//                socialmediaapp.posts.remove(post)
-//
-//
-//
-//            }
+            binding.DeletePostBtn.setOnClickListener() {
+                val postKey = binding.postKey.text.toString()
+                 val postRef = FirebaseFirestore.getInstance().collection("posts").document(
+                         postKey)
+                postRef.delete()
+
+
+
+            }
            // binding.root.setOnClickListener { listener.onPostClick(post) }
+
+
+
+
         }
 
     }

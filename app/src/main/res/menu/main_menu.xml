@@ -3,20 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_add"
-        android:icon="@drawable/plus"
-        android:title=""
+        android:id="@+id/profile"
+        android:icon="@drawable/profile__1_"
+        android:title="@string/add_button"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/homebutton"
-        android:icon="@drawable/home__2_"
-        android:title=""
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/cartbutton"
-        android:icon="@drawable/cart__1_"
-        android:title=""
-        app:showAsAction="always"/>
 </menu>
