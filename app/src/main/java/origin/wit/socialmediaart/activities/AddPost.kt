@@ -34,7 +34,7 @@ import timber.log.Timber.i
 
 
 class AddPost : AppCompatActivity() {
-    lateinit var bottomNavigationView: BottomNavigationView
+    //lateinit var bottomNavigationView: BottomNavigationView
 
     lateinit var socialmediaapp: MainApp
     private var post = Post()
@@ -50,7 +50,8 @@ private lateinit var firestoreDB: FirebaseFirestore
         binding = ActivityAddPostBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        bottomNavigationView = findViewById(R.id.bottomNavbar)
+        //bottomNavigationView = findViewById(R.id.bottomNavbar)
+       // bottomNavigationView = binding.bottomNavbar
         socialmediaapp = application as MainApp
         Timber.plant(Timber.DebugTree())
         auth = Firebase.auth
@@ -69,33 +70,34 @@ private lateinit var firestoreDB: FirebaseFirestore
 
 
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
 
-            when (item.itemId) {
-                R.id.homebutton -> {
-                    Timber.i("home button pressed")
-                    println("home button pressed")
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.additembutton -> {
-                    Timber.i("add button pressed")
-                    println("add button pressed")
-                    // startActivity(Intent(applicationContext, AddPost::class.java))
-                    // bottomNavigationView.selectedItemId = R.id.additembutton
-                    // overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.profilebutton -> {
-                    i("signed in user: " + signedInUser)
-                    startActivity(Intent(applicationContext, Profile::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                else -> return@setOnNavigationItemSelectedListener false
-            }
-        }
+//        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+//
+//            when (item.itemId) {
+//                R.id.homebutton -> {
+//                    Timber.i("home button pressed")
+//                    println("home button pressed")
+//                    startActivity(Intent(applicationContext, MainActivity::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.additembutton -> {
+//                    Timber.i("add button pressed")
+//                    println("add button pressed")
+//                    // startActivity(Intent(applicationContext, AddPost::class.java))
+//                    // bottomNavigationView.selectedItemId = R.id.additembutton
+//                    // overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.profilebutton -> {
+//                    i("signed in user: " + signedInUser)
+//                    startActivity(Intent(applicationContext, Profile::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                else -> return@setOnNavigationItemSelectedListener false
+//            }
+//        }
 
 
         Timber.i("post Activity started...")
@@ -104,7 +106,8 @@ private lateinit var firestoreDB: FirebaseFirestore
         //drop down array
         val artForms = arrayOf("Painting", "Drawing", "Sculpture", "Printmaking", "Photography", "Film", "Architecture", "Design", "Textiles", "Ceramics")
 
-        val spinner = findViewById<Spinner>(R.id.arttypeSpinner)
+        //val spinner = findViewById<Spinner>(R.id.arttypeSpinner)
+             val   spinner = binding.arttypeSpinner
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, artForms)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
@@ -183,6 +186,7 @@ private lateinit var firestoreDB: FirebaseFirestore
                 post.title = binding.postTitle.text.toString()
                 post.description = binding.postDesc.text.toString()
                 post.type = binding.arttypeSpinner.toString()
+
                 post.timestamp = post.timestamp
                 if (binding.sellableswitch.isChecked) {
                     post.price = binding.priceField.text.toString().toInt()
@@ -193,44 +197,50 @@ private lateinit var firestoreDB: FirebaseFirestore
                    //post.userEmail = auth.currentUser?.email
 
 
-
-                if (title.isNotEmpty() && post.description!!.isNotEmpty()) {
-                    if (binding.postButton.text == "Update") {
-                        i("using update method")
-                       // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
-                        //socialmediaapp.posts.update(post.copy())
-                    } else {
-                        i("using create method")
-                       // socialmediaapp.posts.create(post.copy())
-                        firestoreDB.collection("posts").add(
-                            Post(
-                                post.title, post.description, post.type, post.forSale, post.price,signedInUser
-                            )
-                        )
-                            .addOnCompleteListener{
-                                postCreateTask ->
-                                if(!postCreateTask.isSuccessful){
-                                    Snackbar.make(it, "Couldn't upload Post", Snackbar.LENGTH_LONG).show()
-                                    Timber.i("added unsuccessfully")
-                                }else{
-                                    Snackbar.make(it, "Success", Snackbar.LENGTH_LONG).show()
-                                    val profileIntent = Intent(applicationContext,Profile::class.java )
-                                    profileIntent.putExtra(EXTRA_USEREMAIL, signedInUser?.userEmail)
-                                    //startActivity(Intent(applicationContext, MainActivity::class.java))
-                                    setResult(RESULT_OK)
-                                    finish()
-                                }
-                            }
-
-                        Timber.i("added post: " + post.type + " "+ post.title)
-                    }
-
-
-
+            if (title.isNotEmpty() && post.description!!.isNotEmpty()) {
+                if (binding.postButton.text == "Update") {
+                    i("using update method")
+                    // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
+                    //socialmediaapp.posts.update(post.copy())
                 } else {
-                    Snackbar.make(it, "please dont leave empty fields", Snackbar.LENGTH_LONG).show()
+                    i("using create method")
+                    // socialmediaapp.posts.create(post.copy())
+                    val newPost = Post(
+                        post.Id,
+                        post.title,
+                        post.description,
+                        post.type,
+                        post.forSale,
+                        post.price,
+                        signedInUser
+                    )
+                    firestoreDB.collection("posts").add(newPost)
+                        .addOnSuccessListener { postCreateTask ->
+
+                            Snackbar.make(it, "Success", Snackbar.LENGTH_LONG).show()
+//                            val documentId = postCreateTask.id
+//                            // Store the document ID in the Post object
+//                            newPost.documentId = documentId
+                            val profileIntent = Intent(applicationContext, Profile::class.java)
+                            profileIntent.putExtra(EXTRA_USEREMAIL, signedInUser?.userEmail)
+                            //startActivity(Intent(applicationContext, MainActivity::class.java))
+                            setResult(RESULT_OK)
+                            finish()
+
+                        }
+                        .addOnFailureListener { postFailTaask ->
+                            Snackbar.make(it, "Couldn't upload Post", Snackbar.LENGTH_LONG).show()
+                            Timber.i("added unsuccessfully")
+                        }
+
+                    Timber.i("added post: " + post.type + " " + post.title)
                 }
-          //  }
+
+
+            } else {
+                Snackbar.make(it, "please dont leave empty fields", Snackbar.LENGTH_LONG).show()
+            }
+            //  }
         }
 
             }

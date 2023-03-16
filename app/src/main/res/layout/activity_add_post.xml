@@ -109,22 +109,22 @@ android:elevation="12dp"
         app:layout_constraintStart_toStartOf="@+id/middleTextView"
         app:layout_constraintTop_toBottomOf="@+id/sellableswitch" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavbar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/navbar_rounded"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="#FFFFFF"
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bottomNavbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginHorizontal="15dp"-->
+<!--        android:layout_marginVertical="10dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:background="@drawable/navbar_rounded"-->
+<!--        app:itemIconTint="@color/white"-->
+<!--        app:itemTextColor="#FFFFFF"-->
 
-        app:labelVisibilityMode="unlabeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_bottom_navigation"
-        tools:layout_editor_absoluteX="16dp" />
+<!--        app:labelVisibilityMode="unlabeled"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:menu="@menu/menu_bottom_navigation"-->
+<!--        tools:layout_editor_absoluteX="16dp" />-->
 
     <View
         android:id="@+id/divider2"

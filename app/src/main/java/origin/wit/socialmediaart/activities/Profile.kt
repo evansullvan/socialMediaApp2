@@ -1,14 +1,17 @@
 package origin.wit.socialmediaart.activities
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,7 +31,7 @@ private const val TAG = "ProfileActivity"
 
 class Profile : AppCompatActivity(),PostListener {
 
-    lateinit var bottomNavigationView: BottomNavigationView
+    //lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityProfileBinding
     lateinit var socialmediaapp: MainApp
     val currentUser = Firebase.auth.currentUser
@@ -45,7 +48,8 @@ class Profile : AppCompatActivity(),PostListener {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        bottomNavigationView = findViewById(R.id.bottomNavbar)
+      //  bottomNavigationView = findViewById(R.id.bottomNavbar)
+        //bottomNavigationView = binding.bottomNavbar
         socialmediaapp = application as MainApp
 //        val layoutManager = LinearLayoutManager(this)
 //        binding.recyclerView.layoutManager = layoutManager
@@ -107,42 +111,47 @@ class Profile : AppCompatActivity(),PostListener {
 
         }
 
-
-
-
-
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-
-            when (item.itemId) {
-                R.id.homebutton -> {
-                    Timber.i("home button pressed")
-                    println("home button pressed")
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.additembutton -> {
-                    Timber.i("add button pressed")
-                    println("add button pressed")
-                     startActivity(Intent(applicationContext, AddPost::class.java))
-                    // bottomNavigationView.selectedItemId = R.id.additembutton
-                     overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.profilebutton -> {
-                    //startActivity(Intent(applicationContext, Profile::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                else -> return@setOnNavigationItemSelectedListener false
-            }
+        binding.addItem.setOnClickListener {
+            startActivity(Intent(applicationContext, AddPost::class.java))
         }
+
+
+
+
+
+
+//        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+//
+//            when (item.itemId) {
+//                R.id.homebutton -> {
+//                    Timber.i("home button pressed")
+//                    println("home button pressed")
+//                    startActivity(Intent(applicationContext, MainActivity::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.additembutton -> {
+//                    Timber.i("add button pressed")
+//                    println("add button pressed")
+//                     startActivity(Intent(applicationContext, AddPost::class.java))
+//                    // bottomNavigationView.selectedItemId = R.id.additembutton
+//                     overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.profilebutton -> {
+//                    //startActivity(Intent(applicationContext, Profile::class.java))
+//                    overridePendingTransition(0, 0)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                else -> return@setOnNavigationItemSelectedListener false
+//            }
+//        }
+
+
 
 
     }
 
-
-
 //
 }
+
