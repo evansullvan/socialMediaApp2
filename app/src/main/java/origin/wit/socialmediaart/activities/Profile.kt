@@ -59,7 +59,7 @@ class Profile : AppCompatActivity(),PostListener {
        // binding.recyclerView.setHasFixedSize(true)
         firebaseDb = FirebaseFirestore.getInstance()
         posts = mutableListOf()
-        adapter = PostAdapter(this,posts)
+        adapter = PostAdapter(this,posts,this)
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -149,6 +149,10 @@ class Profile : AppCompatActivity(),PostListener {
 
 
 
+
+    }
+
+    override fun onPostClick(post: Post) {
 
     }
 
