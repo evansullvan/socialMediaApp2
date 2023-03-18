@@ -7,13 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.marlonlom.utilities.timeago.TimeAgo
@@ -37,6 +35,8 @@ import java.util.*
 private const val TAG = "MainActivity"
  const val EXTRA_USEREMAIL = "EXTRA_USEREMAIL"
 private lateinit var socialmediaapp: MainApp
+private var signedInUser: User?=null
+
 
 class MainActivity : AppCompatActivity(), PostListener {
    // lateinit var bottomNavigationView: BottomNavigationView
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), PostListener {
     private lateinit var adapter: PostAdapter
     val currentUser = Firebase.auth.currentUser
 
-    private var signedInUser: User?=null
+
 
 
 
@@ -62,9 +62,10 @@ class MainActivity : AppCompatActivity(), PostListener {
 //        binding.toolbar.title = title
 //        setSupportActionBar(binding.toolbar)
 
+
 firebaseDb = FirebaseFirestore.getInstance()
         posts = mutableListOf()
-        adapter = PostAdapter(this,posts)
+        adapter = PostAdapter(this,posts,this)
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -200,11 +201,12 @@ Log.e(TAG,"post  ${post}")
             }
         }
 
-//    override fun onPostClick(post: Post) {
-//        val launcherIntent = Intent(this, AddPost::class.java)
-//        launcherIntent.putExtra("post_edit", post)
-//        getClickResult.launch(launcherIntent)
-//    }
+    override fun onPostClick(post: Post) {
+        val launcherIntent = Intent(this, AddPost::class.java)
+        launcherIntent.putExtra("post_edit", post)
+        launcherIntent.putExtra("DOCUMENTID",post.Id)
+        getClickResult.launch(launcherIntent)
+    }
 
 
 
@@ -215,14 +217,19 @@ Log.e(TAG,"post  ${post}")
 }
 
 interface PostListener {
-    //fun onPostClick(post: Post)
+    fun onPostClick(post: Post)
 }
 
 //class PostAdapter constructor(private var posts: List<Post>,private val listener:PostListener) :
 //    RecyclerView.Adapter<PostAdapter.MainHolder>() {
 
-    class PostAdapter constructor(val context: Context, val posts:List<Post>) :
-        RecyclerView.Adapter<PostAdapter.MainHolder>() {
+    class PostAdapter constructor(val context: Context, val posts:List<Post>,private val listener:PostListener)
+        : RecyclerView.Adapter<PostAdapter.MainHolder>() {
+
+
+
+
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -234,7 +241,7 @@ interface PostListener {
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
        // val post = posts[holder.adapterPosition]
-        holder.bind(posts[position])
+        holder.bind(posts[position],listener)
     }
 
     override fun getItemCount(): Int = posts.size
@@ -242,7 +249,9 @@ interface PostListener {
     class MainHolder(private val binding: PostCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(post: Post) {
+
+        fun bind(post: Post, listener: PostListener) {
+
             binding.postCreator.text = post.user?.userEmail
             binding.postdescription.text = post.description
             binding.pricedisplay.text = post.price.toString()
@@ -251,6 +260,13 @@ binding.postKey.text = post.Id
 
             //using instagrams timestamp
             binding.TimeStampView.text = TimeAgo.using(post.timestamp)
+
+            if(this.javaClass == MainActivity::class.java){
+                binding.DeletePostBtn.visibility = View.GONE
+            }
+            else if (this.javaClass == Profile::class.java) {
+                binding.DeletePostBtn.visibility = View.VISIBLE
+            }
 
             //delete button
             binding.DeletePostBtn.setOnClickListener() {
@@ -262,7 +278,7 @@ binding.postKey.text = post.Id
 
 
             }
-           // binding.root.setOnClickListener { listener.onPostClick(post) }
+            binding.root.setOnClickListener { listener.onPostClick(post) }
 
 
 

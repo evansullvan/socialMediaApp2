@@ -18,11 +18,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import org.w3c.dom.Document
 import origin.wit.socialmediaart.R
 import origin.wit.socialmediaart.databinding.ActivityAddPostBinding
 import origin.wit.socialmediaart.databinding.ActivityMainBinding
@@ -58,6 +60,12 @@ private lateinit var firestoreDB: FirebaseFirestore
         val currentUser = Firebase.auth.currentUser
         storageReference = FirebaseStorage.getInstance().reference
         firestoreDB = FirebaseFirestore.getInstance()
+
+
+        val DocumentID = intent.getStringExtra("DOCUMENTID")
+
+        val postRef = firestoreDB.collection("posts").document(DocumentID.toString())
+
 
         binding.topTextView.text = "Create new post"
         binding.postButton.text = "Post"
@@ -132,18 +140,25 @@ private lateinit var firestoreDB: FirebaseFirestore
             binding.postTitle.setText(post.title)
             binding.postDesc.setText(post.description)
 
+
+
+
   //            post.price?.let { binding.priceField.setText(it) }
             if(post.forSale){
                 binding.sellableswitch.setChecked(true)
+               // binding.priceField.setText(post.price)
             }else{
                 binding.sellableswitch.setChecked(false)
             }
             binding.arttypeSpinner.setSelection(adapter.getPosition(post.type.toString()))
             binding.topTextView.text = "Update post"
             binding.postButton.text = "Update"
+            binding.documentID.text = DocumentID
+post.timestamp = post.timestamp
+
           if(post.price!! >0){
             binding.priceField.isVisible = true
-
+             // binding.priceField.setText(post.price)
               }else{
               binding.priceField.isVisible = false
              // binding.priceField.setText(0)
@@ -166,6 +181,8 @@ private lateinit var firestoreDB: FirebaseFirestore
 //                }
 //            }
         }
+
+
 
 
         binding.postButton.setOnClickListener() {
@@ -198,9 +215,21 @@ private lateinit var firestoreDB: FirebaseFirestore
 
 
             if (title.isNotEmpty() && post.description!!.isNotEmpty()) {
-                if (binding.postButton.text == "Update") {
+                if (binding.postButton.text == "UPDATE") {
                     i("using update method")
-                    // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
+
+                    val updatedPost = mapOf(
+                        "title" to post.title,
+                        "description" to post.description,
+                        "type" to post.type,
+                        "forSale" to post.forSale,
+                        "price" to post.price
+                    )
+//                        Post(DocumentID,post.title, post.description, post.type, post.forSale, post.price)
+                    postRef.update(updatedPost)
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+
+                // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
                     //socialmediaapp.posts.update(post.copy())
                 } else {
                     i("using create method")
@@ -250,3 +279,5 @@ private lateinit var firestoreDB: FirebaseFirestore
 
 
 }
+
+

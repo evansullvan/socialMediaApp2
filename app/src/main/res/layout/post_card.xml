@@ -29,8 +29,9 @@
             android:layout_marginBottom="12dp"
             android:layout_toEndOf="@+id/postCreator"
             android:background="@drawable/fully_rounded"
-            android:defaultFocusHighlightEnabled="false"
-            android:drawableLeft="@drawable/trash_can" />
+
+            android:drawableLeft="@drawable/trash_can"
+             />
 
         <TextView
             android:id="@+id/postCreator"
