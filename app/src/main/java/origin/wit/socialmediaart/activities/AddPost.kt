@@ -3,13 +3,17 @@ package origin.wit.socialmediaart.activities
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 
@@ -31,6 +35,7 @@ import origin.wit.socialmediaart.databinding.ActivityMainBinding
 import origin.wit.socialmediaart.main.MainApp
 import origin.wit.socialmediaart.models.Post
 import origin.wit.socialmediaart.models.User
+
 import timber.log.Timber
 import timber.log.Timber.i
 
@@ -44,7 +49,11 @@ class AddPost : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 private lateinit var storageReference: StorageReference
 private lateinit var firestoreDB: FirebaseFirestore
-    private var signedInUser: User?=null
+     var signedInUser: User?=null
+    val PICK_PHOTO_CODE = 1234
+    var photoUri: Uri? = null
+var TAG = "addPost"
+
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,12 +78,20 @@ private lateinit var firestoreDB: FirebaseFirestore
 
         binding.topTextView.text = "Create new post"
         binding.postButton.text = "Post"
+
         firestoreDB.collection("users")
             .document(FirebaseAuth.getInstance().currentUser?.uid as String)
             .get()
             .addOnSuccessListener { userSnapshot ->
+
                 signedInUser = userSnapshot.toObject(User::class.java)
 
+                if (signedInUser != null) {
+                    i("user is : " + signedInUser.toString())
+                    // do something with the signed-in user object
+                } else {
+                    Timber.e("Unable to retrieve signed-in user object")
+                }
 
 
 
@@ -134,6 +151,8 @@ private lateinit var firestoreDB: FirebaseFirestore
         }
 
 
+
+
         //edit post
         if (intent.hasExtra("post_edit")) {
             post = intent.extras?.getParcelable("post_edit")!!
@@ -181,6 +200,16 @@ post.timestamp = post.timestamp
 //                }
 //            }
         }
+
+                binding.imagePickerBtn.setOnClickListener {
+                    val imagePickerIntent = Intent(Intent.ACTION_GET_CONTENT)
+                    imagePickerIntent.type = "image/*"
+                    if(imagePickerIntent.resolveActivity(packageManager)!=null){
+                        startActivityForResult(imagePickerIntent, PICK_PHOTO_CODE)
+
+
+                    }
+                }
 
 
 
@@ -232,47 +261,118 @@ post.timestamp = post.timestamp
                 // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
                     //socialmediaapp.posts.update(post.copy())
                 } else {
-                    i("using create method")
-                    // socialmediaapp.posts.create(post.copy())
-                    val newPost = Post(
-                        post.Id,
-                        post.title,
-                        post.description,
-                        post.type,
-                        post.forSale,
-                        post.price,
-                        signedInUser
-                    )
-                    firestoreDB.collection("posts").add(newPost)
-                        .addOnSuccessListener { postCreateTask ->
+//                    i("using create method")
+//                    // socialmediaapp.posts.create(post.copy())
+//                    val newPost = Post(
+//                        post.Id,
+//                        post.imageUrl,
+//                        post.title,
+//                        post.description,
+//                        post.type,
+//                        post.forSale,
+//                        post.price,
+//                        signedInUser
+//                    )
+//                    firestoreDB.collection("posts").add(newPost)
+//                        .addOnSuccessListener { postCreateTask ->
+//
+//                            Snackbar.make(it, "Success", Snackbar.LENGTH_LONG).show()
+////                            val documentId = postCreateTask.id
+////                            // Store the document ID in the Post object
+////                            newPost.documentId = documentId
+//                            val profileIntent = Intent(applicationContext, Profile::class.java)
+//                            profileIntent.putExtra(EXTRA_USEREMAIL, signedInUser?.userEmail)
+//                            //startActivity(Intent(applicationContext, MainActivity::class.java))
+//                            setResult(RESULT_OK)
+//                            finish()
+//
+//                        }
+//                        .addOnFailureListener { postFailTaask ->
+//                            Snackbar.make(it, "Couldn't upload Post", Snackbar.LENGTH_LONG).show()
+//                            Timber.i("added unsuccessfully")
+//                        }
+//
+//                    Timber.i("added post: " + post.type + " " + post.title)
+                    val photoUploadUri = photoUri as Uri
+                    val photoReference = storageReference.child("images/${System.currentTimeMillis()}-photo")
+                    photoReference.putFile(photoUploadUri)
+                        .continueWithTask{ photoUploadTask ->
+                            photoReference.downloadUrl
+                        }.continueWithTask { downloadUrlTask ->
+                            val newPost = Post(
+                                post.Id,
+                                downloadUrlTask.result.toString(),
+                                post.title,
+                                post.description,
+                                post.type,
+                                post.forSale,
+                                post.price,
+                                signedInUser
 
-                            Snackbar.make(it, "Success", Snackbar.LENGTH_LONG).show()
-//                            val documentId = postCreateTask.id
-//                            // Store the document ID in the Post object
-//                            newPost.documentId = documentId
-                            val profileIntent = Intent(applicationContext, Profile::class.java)
-                            profileIntent.putExtra(EXTRA_USEREMAIL, signedInUser?.userEmail)
-                            //startActivity(Intent(applicationContext, MainActivity::class.java))
-                            setResult(RESULT_OK)
+                            )
+                            firestoreDB.collection("posts").add(newPost)
+
+
+                        }.addOnCompleteListener { postCreationTask ->
+                            if(!postCreationTask.isSuccessful){
+                                Log.e(TAG, "error",postCreationTask.exception)
+                                Toast.makeText(this,"failed to create post",Toast.LENGTH_SHORT).show()
+                            }
+
+                            startActivity(Intent(applicationContext, MainActivity::class.java))
                             finish()
-
                         }
-                        .addOnFailureListener { postFailTaask ->
-                            Snackbar.make(it, "Couldn't upload Post", Snackbar.LENGTH_LONG).show()
-                            Timber.i("added unsuccessfully")
-                        }
-
-                    Timber.i("added post: " + post.type + " " + post.title)
                 }
 
 
-            } else {
+                 } else {
                 Snackbar.make(it, "please dont leave empty fields", Snackbar.LENGTH_LONG).show()
-            }
+                     }
             //  }
-        }
-
+                }
             }
+//        val photoUloadUri = photoUri as Uri
+//       val photoReference = storageReference.child("images/${System.currentTimeMillis()}-photo.jpg")
+//        photoReference.putFile(photoUloadUri)
+//            .continueWithTask{ photoUploadTask ->
+//                    photoReference.downloadUrl
+//            }.continueWithTask { downloadUrlTask ->
+//                val newPost = Post(
+//                    post.Id,
+//                    downloadUrlTask.result.toString(),
+//                    post.title,
+//                    post.description,
+//                    post.type,
+//                    post.forSale,
+//                    post.price,
+//                    signedInUser
+//
+//                )
+//                firestoreDB.collection("posts").add(newPost)
+//
+//
+//            }.addOnCompleteListener { postCreationTask ->
+//                if(!postCreationTask.isSuccessful){
+//                    Log.e(TAG, "error",postCreationTask.exception)
+//                    Toast.makeText(this,"failed to create post",Toast.LENGTH_SHORT).show()
+//                }
+//
+//                startActivity(Intent(applicationContext, MainActivity::class.java))
+//                finish()
+//            }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == PICK_PHOTO_CODE ){
+            if(resultCode == Activity.RESULT_OK){
+                 photoUri = data?.data
+                binding.imageView3.setImageURI(photoUri)
+            }else{
+                Toast.makeText(this,"Image picker closed",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 
