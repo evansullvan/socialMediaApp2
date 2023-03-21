@@ -12,7 +12,7 @@ import java.util.*
 
 
 @Parcelize
-data class Post (@DocumentId val Id: String?=null,var title:String = "", var description:String = "", var type:String = "", var forSale:Boolean=false, var price:Int = 0, var user:@RawValue User?=null, var timestamp: Long = System.currentTimeMillis()) :
+data class Post (@DocumentId val Id: String?=null, var imageUrl:String = "",var title:String = "", var description:String = "", var type:String = "", var forSale:Boolean=false, var price:Int = 0,var user:@RawValue User?=null, var timestamp: Long = System.currentTimeMillis()) :
     Parcelable
 
-
+//var user:@RawValue User?=null

@@ -65,9 +65,13 @@ class Profile : AppCompatActivity(),PostListener {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        val postsReference = firebaseDb.collection("posts")
+        var postsReference = firebaseDb.collection("posts")
             .limit(20)
             .orderBy("timestamp", Query.Direction.DESCENDING)
+        val username = intent.getStringExtra(EXTRA_USEREMAIL)
+        if(username != null) {
+            postsReference = postsReference.whereEqualTo("user.userEmail", username)
+        }
 
         postsReference.addSnapshotListener { snapshot, exception ->
             if(exception != null || snapshot == null){

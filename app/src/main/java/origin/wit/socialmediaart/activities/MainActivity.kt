@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -75,6 +76,9 @@ firebaseDb = FirebaseFirestore.getInstance()
             .get()
             .addOnSuccessListener { userSnapshot ->
                 signedInUser = userSnapshot.toObject(User::class.java)
+                Timber.i("user is : " + signedInUser.toString())
+            }.addOnFailureListener{
+                Timber.i("failed, cannot get uid")
             }
 
 
@@ -98,7 +102,7 @@ firebaseDb = FirebaseFirestore.getInstance()
             adapter.notifyDataSetChanged()
 
             for(post in postList1){
-Log.e(TAG,"post  ${post}")
+                Log.e(TAG,"post  ${post}")
             }
         }
 
@@ -246,7 +250,7 @@ interface PostListener {
 
     override fun getItemCount(): Int = posts.size
 
-    class MainHolder(private val binding: PostCardBinding) :
+    inner class MainHolder(private val binding: PostCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 
@@ -256,7 +260,8 @@ interface PostListener {
             binding.postdescription.text = post.description
             binding.pricedisplay.text = post.price.toString()
             binding.postTitle.text = post.title
-binding.postKey.text = post.Id
+            binding.postKey.text = post.Id
+            Glide.with(context).load(post.imageUrl).into(binding.imageView)
 
             //using instagrams timestamp
             binding.TimeStampView.text = TimeAgo.using(post.timestamp)

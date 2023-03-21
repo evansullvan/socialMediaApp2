@@ -29,10 +29,11 @@
     <TextView
         android:id="@+id/middleTextView"
         android:layout_width="0dp"
-        android:layout_height="500dp"
-android:layout_marginHorizontal="15dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="15dp"
 
         android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/BottomTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topTextView" />
@@ -62,17 +63,17 @@ android:layout_marginHorizontal="15dp"
         app:layout_constraintTop_toBottomOf="@+id/postTitle" />
 
 
-
     <TextView
         android:id="@+id/BottomTextView"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:background="@drawable/bottom_rounded"
-android:elevation="12dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bottom_rounded"
+        android:elevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/middleTextView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/postButton"
@@ -154,6 +155,28 @@ android:tooltipText="Type"
         android:textSize="1sp"
         app:layout_constraintStart_toEndOf="@+id/postTitle"
         app:layout_constraintTop_toBottomOf="@+id/topTextView" />
+
+    <Button
+        android:id="@+id/imagePickerBtn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/pickanimage"
+        android:background="@drawable/fully_rounded"
+        android:backgroundTint="@color/main_yellow"
+        app:layout_constraintEnd_toEndOf="@+id/middleTextView"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/arttypeSpinner" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/middleTextView"
+        app:layout_constraintStart_toStartOf="@+id/middleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/imagePickerBtn"
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
