@@ -121,31 +121,35 @@ class Signup : AppCompatActivity() {
             "userPassword" to userpassword
         )
 
-            auth.createUserWithEmailAndPassword(userEmail, userpassword)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        firebaseDb.collection("users")
-                            .document()
-                            .set(newUser)
-                            .addOnSuccessListener {
-                                println("User added to Firestore")
-                            }
-                            .addOnFailureListener {
-                                println(it)
-                            }
+//
+        auth.createUserWithEmailAndPassword(userEmail, userpassword)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val firebaseUser = auth.currentUser
+                    val uid = firebaseUser!!.uid
 
-                        // Sign in success, update UI with the signed-in user's information
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
-                    } else {
-                        // If sign in fails, display a message to the user.
+                    // You can use the UID to store user information in Firestore
+                    val newUser = User(uid, userEmail, userpassword)
+                    firebaseDb.collection("users")
+                        .document(uid!!)
+                        .set(newUser)
+                        .addOnSuccessListener {
+                            println("User added to Firestore")
+                        }
+                        .addOnFailureListener {
+                            println(it)
+                        }
 
-                        Toast.makeText(
-                            baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                    }
+                    // Sign in success, update UI with the signed-in user's information
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
                 .addOnFailureListener {
                     Toast.makeText(this, "${it.localizedMessage}", Toast.LENGTH_SHORT)
                         .show()

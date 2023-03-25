@@ -5,4 +5,4 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 
-data class User( var userEmail:String = "", var userPassword:String = "")
+data class User(val uid:String ="", var userEmail:String = "", var userPassword:String = "")

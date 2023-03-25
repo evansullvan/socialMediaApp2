@@ -36,7 +36,7 @@ import java.util.*
 private const val TAG = "MainActivity"
  const val EXTRA_USEREMAIL = "EXTRA_USEREMAIL"
 private lateinit var socialmediaapp: MainApp
-private var signedInUser: User?=null
+
 
 
 class MainActivity : AppCompatActivity(), PostListener {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), PostListener {
     private lateinit var posts:MutableList<Post>
     private lateinit var adapter: PostAdapter
     val currentUser = Firebase.auth.currentUser
-
+    var signedInUser: User?=null
 
 
 
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), PostListener {
 //        setSupportActionBar(binding.toolbar)
 
 
-firebaseDb = FirebaseFirestore.getInstance()
+        firebaseDb = FirebaseFirestore.getInstance()
         posts = mutableListOf()
         adapter = PostAdapter(this,posts,this)
 
@@ -157,11 +157,6 @@ firebaseDb = FirebaseFirestore.getInstance()
 
         binding.toolbar.title = ""
         setSupportActionBar(binding.toolbar)
-
-
-
-
-
 
     }
 
