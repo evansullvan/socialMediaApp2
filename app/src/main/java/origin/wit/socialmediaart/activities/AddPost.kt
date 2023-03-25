@@ -79,19 +79,23 @@ var TAG = "addPost"
         binding.topTextView.text = "Create new post"
         binding.postButton.text = "Post"
 
+        val userId = FirebaseAuth.getInstance().currentUser?.uid as String
         firestoreDB.collection("users")
-            .document(FirebaseAuth.getInstance().currentUser?.uid as String)
+            .document(userId)
             .get()
             .addOnSuccessListener { userSnapshot ->
-
-                signedInUser = userSnapshot.toObject(User::class.java)
-
-                if (signedInUser != null) {
-                    i("user is : " + signedInUser.toString())
-                    // do something with the signed-in user object
+                if (userSnapshot.exists()) {
+                    signedInUser = userSnapshot.toObject(User::class.java)
+                    if (signedInUser != null) {
+                        i("User with ID $userId is: " + signedInUser.toString())
+                        // do something with the signed-in user object
+                    } else {
+                        Timber.e("Unable to retrieve signed-in user object")
+                    }
                 } else {
-                    Timber.e("Unable to retrieve signed-in user object")
+                    Timber.e("User with ID $userId does not exist")
                 }
+
 
 
 
@@ -308,6 +312,7 @@ post.timestamp = post.timestamp
                                 post.forSale,
                                 post.price,
                                 signedInUser
+
 
                             )
                             firestoreDB.collection("posts").add(newPost)
