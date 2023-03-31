@@ -86,8 +86,8 @@
         android:id="@+id/profileDetails"
         android:layout_width="0dp"
         android:layout_height="135dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/fully_rounded"
 
         android:contentDescription="profile Picture"
@@ -112,6 +112,7 @@
         android:id="@+id/userEmailDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="250dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:elevation="21dp"
@@ -128,7 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:background="@drawable/fully_rounded"
+
         android:backgroundTint="@color/white"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
