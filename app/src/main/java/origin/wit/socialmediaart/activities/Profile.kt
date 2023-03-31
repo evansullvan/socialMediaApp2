@@ -39,7 +39,7 @@ class Profile : AppCompatActivity(),PostListener {
     private lateinit var firebaseDb:FirebaseFirestore
     private lateinit var posts:MutableList<Post>
     private lateinit var adapter: PostAdapter
-
+    var signedInUser: User?=null
 
 
 
@@ -65,12 +65,23 @@ class Profile : AppCompatActivity(),PostListener {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
 
+        firebaseDb.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser?.uid as String)
+            .get()
+            .addOnSuccessListener { userSnapshot ->
+                signedInUser = userSnapshot.toObject(User::class.java)
+                Timber.i("user is : " + signedInUser.toString())
+            }.addOnFailureListener{
+                Timber.i("failed, cannot get uid")
+            }
+
         var postsReference = firebaseDb.collection("posts")
             .limit(20)
             .orderBy("timestamp", Query.Direction.DESCENDING)
-        val username = intent.getStringExtra(EXTRA_USEREMAIL)
-        if(username != null) {
-            postsReference = postsReference.whereEqualTo("user.userEmail", username)
+        val useremail = intent.getStringExtra(EXTRA_USEREMAIL)
+                //val useremail = signedInUser?.userEmail
+        if(useremail != null) {
+            postsReference = postsReference.whereEqualTo("user.userEmail", useremail)
         }
 
         postsReference.addSnapshotListener { snapshot, exception ->

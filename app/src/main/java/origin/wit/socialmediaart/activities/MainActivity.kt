@@ -261,10 +261,10 @@ interface PostListener {
             //using instagrams timestamp
             binding.TimeStampView.text = TimeAgo.using(post.timestamp)
 
-            if(this.javaClass == MainActivity::class.java){
+            if(context.javaClass == MainActivity::class.java){
                 binding.DeletePostBtn.visibility = View.GONE
             }
-            else if (this.javaClass == Profile::class.java) {
+            else if (context.javaClass == Profile::class.java) {
                 binding.DeletePostBtn.visibility = View.VISIBLE
             }
 
