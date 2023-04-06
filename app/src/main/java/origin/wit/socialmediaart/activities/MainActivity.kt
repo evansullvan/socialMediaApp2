@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity(), PostListener {
     private lateinit var adapter: PostAdapter
     val currentUser = Firebase.auth.currentUser
     var signedInUser: User?=null
+//var filterButton = null
 
 
 
@@ -64,6 +67,7 @@ class MainActivity : AppCompatActivity(), PostListener {
 //        setSupportActionBar(binding.toolbar)
 
 
+        var filterButton = binding.filter
         firebaseDb = FirebaseFirestore.getInstance()
         posts = mutableListOf()
         adapter = PostAdapter(this,posts,this)
@@ -123,6 +127,60 @@ class MainActivity : AppCompatActivity(), PostListener {
             startActivity(Intent(applicationContext, AddPost::class.java))
         }
 
+        filterButton.setOnClickListener {
+            val popup = PopupMenu(this, filterButton)
+            val inflater: MenuInflater = popup.menuInflater
+            inflater.inflate(R.menu.filter_menu, popup.menu)
+            popup.setOnMenuItemClickListener { item: MenuItem ->
+                // Handle item selection
+                when (item.itemId) {
+                    R.id.painting -> {
+                        // Filter option 1 selected
+                        true
+                    }
+                    R.id.drawing -> {
+                        // Filter option 2 selected
+                        true
+                    }
+                    R.id.sculpture -> {
+                        // Filter option 3 selected
+                        true
+                    }
+                    R.id.printmaking -> {
+                        // Filter option 3 selected
+                        true
+                    }
+                    R.id.photo -> {
+                        // Filter option 3 selected
+                        true
+                    }
+                    R.id.film -> {
+                        // Filter option 3 selected
+                        true
+                    }
+                    R.id.architecture -> {
+                        // Filter option 3 selected
+                        true
+                    }
+                    R.id.design -> {
+                        // Filter option 3 selected
+                        true
+                    }
+                    R.id.textiles -> {
+                        // Filter option 3 selected
+                        true
+                    }
+                    R.id.ceramics -> {
+                        // Filter option 3 selected
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+            popup.show()
+        }
+
 
 
 //        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -172,9 +230,16 @@ class MainActivity : AppCompatActivity(), PostListener {
                 launcherIntent.putExtra(EXTRA_USEREMAIL, signedInUser?.userEmail)
                 getResult.launch(launcherIntent)
             }
+
         }
         return super.onOptionsItemSelected(item)
     }
+
+
+
+
+
+
 
     private val getResult =
         registerForActivityResult(
@@ -224,11 +289,6 @@ interface PostListener {
 
     class PostAdapter constructor(val context: Context, val posts:List<Post>,private val listener:PostListener)
         : RecyclerView.Adapter<PostAdapter.MainHolder>() {
-
-
-
-
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
