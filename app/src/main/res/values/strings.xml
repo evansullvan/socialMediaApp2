@@ -32,5 +32,16 @@
     <string name="alreadyhaveanaccountlogin">Already have an account?</string>
     <string name="continueWithGoogle">Continue with google</string>
     <string name="pickanimage">Choose Image</string>
+    <string name="filter_type">Art Type</string>
+    <string name="filter_type_painting">Painting</string>
+    <string name="filter_type_drawing">Drawing</string>
+    <string name="filter_type_sculpture">Sculpture</string>
+    <string name="filter_type_print">PrintMaking</string>
+    <string name="filter_type_photo">Photography</string>
+    <string name="filter_type_film">Film</string>
+    <string name="filter_type_archi">Architecture</string>
+    <string name="filter_type_design">Design</string>
+    <string name="filter_type_textile">Textiles</string>
+    <string name="filter_type_ceramic">Ceramics</string>
 
 </resources>

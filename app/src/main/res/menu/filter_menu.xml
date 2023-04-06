@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/painting"
+
+        android:title="@string/filter_type_painting"
+         />
+    <item
+        android:id="@+id/drawing"
+
+        android:title="@string/filter_type_drawing"
+         />
+    <item
+        android:id="@+id/sculpture"
+
+        android:title="@string/filter_type_sculpture"
+        />
+    <item
+        android:id="@+id/printmaking"
+
+        android:title="@string/filter_type_print"
+        />
+    <item
+        android:id="@+id/photo"
+
+        android:title="@string/filter_type_photo"
+         />
+    <item
+        android:id="@+id/film"
+
+        android:title="@string/filter_type_film"
+         />
+    <item
+        android:id="@+id/architecture"
+
+        android:title="@string/filter_type_archi"
+         />
+    <item
+        android:id="@+id/design"
+
+        android:title="@string/filter_type_design"
+         />
+    <item
+        android:id="@+id/textiles"
+
+        android:title="@string/filter_type_textile"
+        />
+    <item
+        android:id="@+id/ceramics"
+
+        android:title="@string/filter_type_ceramic"
+        />
+
+</menu>
