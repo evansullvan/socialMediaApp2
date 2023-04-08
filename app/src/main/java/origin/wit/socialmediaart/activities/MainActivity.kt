@@ -116,6 +116,25 @@ var postList1 = listOf<Post>()
         binding.addItem.setOnClickListener {
             startActivity(Intent(applicationContext, AddPost::class.java))
         }
+//initially display posts
+        var postsReference = firebaseDb.collection("posts")
+            .limit(20)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+        postsReference.addSnapshotListener { snapshot, exception ->
+            if(exception != null || snapshot == null){
+                Log.e(TAG, "error when querying data",exception)
+                return@addSnapshotListener
+
+            }
+            val postList1 = snapshot.toObjects(Post::class.java)
+            posts.clear()
+            posts.addAll(postList1)
+            adapter.notifyDataSetChanged()
+
+            for(post in postList1){
+                Log.e(TAG,"post  ${post}")
+            }
+        }
 
         //display the posts
         fun updatePostsList(query: Query) {
@@ -150,8 +169,8 @@ var postList1 = listOf<Post>()
                         var postsReference = firebaseDb.collection("posts")
                             .limit(20)
                             .orderBy("timestamp", Query.Direction.DESCENDING)
-
                         updatePostsList(postsReference)
+
                         true
                     }
                     R.id.painting -> {
