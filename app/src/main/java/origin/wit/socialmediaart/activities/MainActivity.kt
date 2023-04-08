@@ -36,13 +36,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "MainActivity"
- const val EXTRA_USEREMAIL = "EXTRA_USEREMAIL"
+const val EXTRA_USEREMAIL = "EXTRA_USEREMAIL"
 private lateinit var socialmediaapp: MainApp
 
 
 
 class MainActivity : AppCompatActivity(), PostListener {
-   // lateinit var bottomNavigationView: BottomNavigationView
+    // lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseDb:FirebaseFirestore
     private lateinit var posts:MutableList<Post>
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity(), PostListener {
             .orderBy("timestamp",Query.Direction.DESCENDING)
         val username = intent.getStringExtra(EXTRA_USEREMAIL)
         if(username != null){
-           postsReference = postsReference.whereEqualTo("user.userEmail",username)
+            postsReference = postsReference.whereEqualTo("user.userEmail",username)
 
         }
         postsReference.addSnapshotListener { snapshot, exception ->
@@ -134,7 +134,52 @@ class MainActivity : AppCompatActivity(), PostListener {
             popup.setOnMenuItemClickListener { item: MenuItem ->
                 // Handle item selection
                 when (item.itemId) {
+                    R.id.any -> {
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+
+                        postsReference.addSnapshotListener { snapshot, exception ->
+                            if(exception != null || snapshot == null){
+                                Log.e(TAG, "error when querying data",exception)
+                                return@addSnapshotListener
+
+                            }
+                            val postList1 = snapshot.toObjects(Post::class.java)
+                            posts.clear()
+                            posts.addAll(postList1)
+                            adapter.notifyDataSetChanged()
+
+                            for(post in postList1){
+                                Log.e(TAG,"post  ${post}")
+                            }
+                        }
+                        true
+                    }
                     R.id.painting -> {
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+
+                        //val useremail = signedInUser?.userEmail
+
+                            postsReference = postsReference.whereEqualTo("type", "Painting")
+
+                        postsReference.addSnapshotListener { snapshot, exception ->
+                            if(exception != null || snapshot == null){
+                                Log.e(TAG, "error when querying data",exception)
+                                return@addSnapshotListener
+
+                            }
+                            val postList1 = snapshot.toObjects(Post::class.java)
+                            posts.clear()
+                            posts.addAll(postList1)
+                            adapter.notifyDataSetChanged()
+
+                            for(post in postList1){
+                                Log.e(TAG,"post  ${post}")
+                            }
+                        }
                         // Filter option 1 selected
                         true
                     }
@@ -287,8 +332,8 @@ interface PostListener {
 //class PostAdapter constructor(private var posts: List<Post>,private val listener:PostListener) :
 //    RecyclerView.Adapter<PostAdapter.MainHolder>() {
 
-    class PostAdapter constructor(val context: Context, val posts:List<Post>,private val listener:PostListener)
-        : RecyclerView.Adapter<PostAdapter.MainHolder>() {
+class PostAdapter constructor(val context: Context, val posts:List<Post>,private val listener:PostListener)
+    : RecyclerView.Adapter<PostAdapter.MainHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -299,7 +344,7 @@ interface PostListener {
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-       // val post = posts[holder.adapterPosition]
+        // val post = posts[holder.adapterPosition]
         holder.bind(posts[position],listener)
     }
 
@@ -331,8 +376,8 @@ interface PostListener {
             //delete button
             binding.DeletePostBtn.setOnClickListener() {
                 val postKey = binding.postKey.text.toString()
-                 val postRef = FirebaseFirestore.getInstance().collection("posts").document(
-                         postKey)
+                val postRef = FirebaseFirestore.getInstance().collection("posts").document(
+                    postKey)
                 postRef.delete()
 
 

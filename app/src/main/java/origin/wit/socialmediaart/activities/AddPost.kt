@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
@@ -47,12 +49,12 @@ class AddPost : AppCompatActivity() {
     private var post = Post()
     private lateinit var binding: ActivityAddPostBinding
     private lateinit var auth: FirebaseAuth
-private lateinit var storageReference: StorageReference
-private lateinit var firestoreDB: FirebaseFirestore
-     var signedInUser: User?=null
+    private lateinit var storageReference: StorageReference
+    private lateinit var firestoreDB: FirebaseFirestore
+    var signedInUser: User?=null
     val PICK_PHOTO_CODE = 1234
     var photoUri: Uri? = null
-var TAG = "addPost"
+    var TAG = "addPost"
 
 
     @SuppressLint("SetTextI18n")
@@ -62,7 +64,7 @@ var TAG = "addPost"
 
         setContentView(binding.root)
         //bottomNavigationView = findViewById(R.id.bottomNavbar)
-       // bottomNavigationView = binding.bottomNavbar
+        // bottomNavigationView = binding.bottomNavbar
         socialmediaapp = application as MainApp
         Timber.plant(Timber.DebugTree())
         auth = Firebase.auth
@@ -129,63 +131,72 @@ var TAG = "addPost"
 //        }
 
 
-        Timber.i("post Activity started...")
-        //val pricebutton = binding.sellable.isChecked
+                Timber.i("post Activity started...")
+                //val pricebutton = binding.sellable.isChecked
 
-        //drop down array
-        val artForms = arrayOf("Painting", "Drawing", "Sculpture", "Printmaking", "Photography", "Film", "Architecture", "Design", "Textiles", "Ceramics")
+                //drop down array
+                val artForms = arrayOf("Painting", "Drawing", "Sculpture", "Printmaking", "Photography", "Film", "Architecture", "Design", "Textiles", "Ceramics")
 
-        //val spinner = findViewById<Spinner>(R.id.arttypeSpinner)
-             val   spinner = binding.arttypeSpinner
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, artForms)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+                //val spinner = findViewById<Spinner>(R.id.arttypeSpinner)
+                val spinner = binding.arttypeSpinner
+                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, artForms)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = adapter
+                spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val selectedValue = parent?.getItemAtPosition(position).toString()
+                        post.type = selectedValue
+                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        post.type = null.toString()
+                    }
+                }
 
-        binding.priceField.isVisible = false
-        binding.sellableswitch.setOnClickListener{
-            if (binding.sellableswitch.isChecked){
-                post.forSale = true
-                binding.priceField.isVisible = true
-
-            }else{
-                post.forSale = false
                 binding.priceField.isVisible = false
+                binding.sellableswitch.setOnClickListener{
+                    if (binding.sellableswitch.isChecked){
+                        post.forSale = true
+                        binding.priceField.isVisible = true
 
-            }
-        }
+                    }else{
+                        post.forSale = false
+                        binding.priceField.isVisible = false
 
-
-
-
-        //edit post
-        if (intent.hasExtra("post_edit")) {
-            post = intent.extras?.getParcelable("post_edit")!!
-            binding.postTitle.setText(post.title)
-            binding.postDesc.setText(post.description)
-
+                    }
+                }
 
 
 
-  //            post.price?.let { binding.priceField.setText(it) }
-            if(post.forSale){
-                binding.sellableswitch.setChecked(true)
-               // binding.priceField.setText(post.price)
-            }else{
-                binding.sellableswitch.setChecked(false)
-            }
-            binding.arttypeSpinner.setSelection(adapter.getPosition(post.type.toString()))
-            binding.topTextView.text = "Update post"
-            binding.postButton.text = "Update"
-            binding.documentID.text = DocumentID
-post.timestamp = post.timestamp
 
-          if(post.price!! >0){
-            binding.priceField.isVisible = true
-             // binding.priceField.setText(post.price)
-              }else{
-              binding.priceField.isVisible = false
-             // binding.priceField.setText(0)
-          }
+                //edit post
+                if (intent.hasExtra("post_edit")) {
+                    post = intent.extras?.getParcelable("post_edit")!!
+                    binding.postTitle.setText(post.title)
+                    binding.postDesc.setText(post.description)
+
+
+
+
+                    //            post.price?.let { binding.priceField.setText(it) }
+                    if(post.forSale){
+                        binding.sellableswitch.setChecked(true)
+                        // binding.priceField.setText(post.price)
+                    }else{
+                        binding.sellableswitch.setChecked(false)
+                    }
+                    binding.arttypeSpinner.setSelection(adapter.getPosition(post.type.toString()))
+                    binding.topTextView.text = "Update post"
+                    binding.postButton.text = "Update"
+                    binding.documentID.text = DocumentID
+                    post.timestamp = post.timestamp
+
+                    if(post.price!! >0){
+                        binding.priceField.isVisible = true
+                        // binding.priceField.setText(post.price)
+                    }else{
+                        binding.priceField.isVisible = false
+                        // binding.priceField.setText(0)
+                    }
 //            binding.postButton.setOnClickListener() {
 //                post.title = binding.postTitle.text.toString()
 //                post.id = post.id
@@ -203,7 +214,7 @@ post.timestamp = post.timestamp
 //                    Timber.i(it.toString())
 //                }
 //            }
-        }
+                }
 
                 binding.imagePickerBtn.setOnClickListener {
                     val imagePickerIntent = Intent(Intent.ACTION_GET_CONTENT)
@@ -218,8 +229,8 @@ post.timestamp = post.timestamp
 
 
 
-        binding.postButton.setOnClickListener() {
-            Timber.i("add Button Pressed: ")
+                binding.postButton.setOnClickListener() {
+                    Timber.i("add Button Pressed: ")
 
 //            if (binding.postTitle.text.toString().isEmpty() == true) {
 //                Snackbar.make(it, "please dont leave the title empty", Snackbar.LENGTH_LONG).show()
@@ -233,38 +244,39 @@ post.timestamp = post.timestamp
 //            } else {
 
 
-                post.title = binding.postTitle.text.toString()
-                post.description = binding.postDesc.text.toString()
-                post.type = binding.arttypeSpinner.toString()
-
-                post.timestamp = post.timestamp
-                if (binding.sellableswitch.isChecked) {
-                    post.price = binding.priceField.text.toString().toInt()
-
-                } else {
-                    post.price = 0
-                }
-                   //post.userEmail = auth.currentUser?.email
+                    post.title = binding.postTitle.text.toString()
+                    post.description = binding.postDesc.text.toString()
 
 
-            if (title.isNotEmpty() && post.description!!.isNotEmpty()) {
-                if (binding.postButton.text == "UPDATE") {
-                    i("using update method")
 
-                    val updatedPost = mapOf(
-                        "title" to post.title,
-                        "description" to post.description,
-                        "type" to post.type,
-                        "forSale" to post.forSale,
-                        "price" to post.price
-                    )
+                    post.timestamp = post.timestamp
+                    if (binding.sellableswitch.isChecked) {
+                        post.price = binding.priceField.text.toString().toInt()
+
+                    } else {
+                        post.price = 0
+                    }
+                    //post.userEmail = auth.currentUser?.email
+
+
+                    if (title.isNotEmpty() && post.description!!.isNotEmpty()) {
+                        if (binding.postButton.text == "UPDATE") {
+                            i("using update method")
+
+                            val updatedPost = mapOf(
+                                "title" to post.title,
+                                "description" to post.description,
+                                "type" to post.type,
+                                "forSale" to post.forSale,
+                                "price" to post.price
+                            )
 //                        Post(DocumentID,post.title, post.description, post.type, post.forSale, post.price)
-                    postRef.update(updatedPost)
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                            postRef.update(updatedPost)
+                            startActivity(Intent(applicationContext, MainActivity::class.java))
 
-                // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
-                    //socialmediaapp.posts.update(post.copy())
-                } else {
+                            // socialmediaapp.posts.update(Post( post.title, post.description, post.type, post.forSale, post.price))
+                            //socialmediaapp.posts.update(post.copy())
+                        } else {
 //                    i("using create method")
 //                    // socialmediaapp.posts.create(post.copy())
 //                    val newPost = Post(
@@ -297,43 +309,43 @@ post.timestamp = post.timestamp
 //                        }
 //
 //                    Timber.i("added post: " + post.type + " " + post.title)
-                    val photoUploadUri = photoUri as Uri
-                    val photoReference = storageReference.child("images/${System.currentTimeMillis()}-photo")
-                    photoReference.putFile(photoUploadUri)
-                        .continueWithTask{ photoUploadTask ->
-                            photoReference.downloadUrl
-                        }.continueWithTask { downloadUrlTask ->
-                            val newPost = Post(
-                                post.Id,
-                                downloadUrlTask.result.toString(),
-                                post.title,
-                                post.description,
-                                post.type,
-                                post.forSale,
-                                post.price,
-                                signedInUser
+                            val photoUploadUri = photoUri as Uri
+                            val photoReference = storageReference.child("images/${System.currentTimeMillis()}-photo")
+                            photoReference.putFile(photoUploadUri)
+                                .continueWithTask{ photoUploadTask ->
+                                    photoReference.downloadUrl
+                                }.continueWithTask { downloadUrlTask ->
+                                    val newPost = Post(
+                                        post.Id,
+                                        downloadUrlTask.result.toString(),
+                                        post.title,
+                                        post.description,
+                                        post.type,
+                                        post.forSale,
+                                        post.price,
+                                        signedInUser
 
 
-                            )
-                            firestoreDB.collection("posts").add(newPost)
+                                    )
+                                    firestoreDB.collection("posts").add(newPost)
 
 
-                        }.addOnCompleteListener { postCreationTask ->
-                            if(!postCreationTask.isSuccessful){
-                                Log.e(TAG, "error",postCreationTask.exception)
-                                Toast.makeText(this,"failed to create post",Toast.LENGTH_SHORT).show()
-                            }
+                                }.addOnCompleteListener { postCreationTask ->
+                                    if(!postCreationTask.isSuccessful){
+                                        Log.e(TAG, "error",postCreationTask.exception)
+                                        Toast.makeText(this,"failed to create post",Toast.LENGTH_SHORT).show()
+                                    }
 
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
-                            finish()
+                                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                                    finish()
+                                }
                         }
-                }
 
 
-                 } else {
-                Snackbar.make(it, "please dont leave empty fields", Snackbar.LENGTH_LONG).show()
-                     }
-            //  }
+                    } else {
+                        Snackbar.make(it, "please dont leave empty fields", Snackbar.LENGTH_LONG).show()
+                    }
+                    //  }
                 }
             }
 //        val photoUloadUri = photoUri as Uri
@@ -372,7 +384,7 @@ post.timestamp = post.timestamp
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == PICK_PHOTO_CODE ){
             if(resultCode == Activity.RESULT_OK){
-                 photoUri = data?.data
+                photoUri = data?.data
                 binding.imageView3.setImageURI(photoUri)
             }else{
                 Toast.makeText(this,"Image picker closed",Toast.LENGTH_SHORT).show()
