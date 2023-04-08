@@ -43,5 +43,6 @@
     <string name="filter_type_design">Design</string>
     <string name="filter_type_textile">Textiles</string>
     <string name="filter_type_ceramic">Ceramics</string>
+    <string name="filter_type_any">Any</string>
 
 </resources>
