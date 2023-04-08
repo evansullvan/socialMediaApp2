@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), PostListener {
     val currentUser = Firebase.auth.currentUser
     var signedInUser: User?=null
 //var filterButton = null
-
+var postList1 = listOf<Post>()
 
 
 
@@ -69,8 +69,10 @@ class MainActivity : AppCompatActivity(), PostListener {
 
         var filterButton = binding.filter
         firebaseDb = FirebaseFirestore.getInstance()
-        posts = mutableListOf()
+        posts = mutableListOf<Post>()
         adapter = PostAdapter(this,posts,this)
+
+
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -86,29 +88,17 @@ class MainActivity : AppCompatActivity(), PostListener {
             }
 
 
-        var postsReference = firebaseDb.collection("posts")
-            .limit(20)
-            .orderBy("timestamp",Query.Direction.DESCENDING)
-        val username = intent.getStringExtra(EXTRA_USEREMAIL)
-        if(username != null){
-            postsReference = postsReference.whereEqualTo("user.userEmail",username)
+//        var postsReference = firebaseDb.collection("posts")
+//            .limit(20)
+//            .orderBy("timestamp",Query.Direction.DESCENDING)
+//        val username = intent.getStringExtra(EXTRA_USEREMAIL)
+//        if(username != null){
+//            postsReference = postsReference.whereEqualTo("user.userEmail",username)
 
-        }
-        postsReference.addSnapshotListener { snapshot, exception ->
-            if(exception != null || snapshot == null){
-                Log.e(TAG, "error when querying data",exception)
-                return@addSnapshotListener
+       // }
 
-            }
-            val postList1 = snapshot.toObjects(Post::class.java)
-            posts.clear()
-            posts.addAll(postList1)
-            adapter.notifyDataSetChanged()
+        //initially displaying the posts
 
-            for(post in postList1){
-                Log.e(TAG,"post  ${post}")
-            }
-        }
 
 
         //refreshPostButton = findViewById(R.id.refreshBtn)
@@ -126,11 +116,52 @@ class MainActivity : AppCompatActivity(), PostListener {
         binding.addItem.setOnClickListener {
             startActivity(Intent(applicationContext, AddPost::class.java))
         }
+//initially display posts
+        var postsReference = firebaseDb.collection("posts")
+            .limit(20)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+        postsReference.addSnapshotListener { snapshot, exception ->
+            if(exception != null || snapshot == null){
+                Log.e(TAG, "error when querying data",exception)
+                return@addSnapshotListener
+
+            }
+            val postList1 = snapshot.toObjects(Post::class.java)
+            posts.clear()
+            posts.addAll(postList1)
+            adapter.notifyDataSetChanged()
+
+            for(post in postList1){
+                Log.e(TAG,"post  ${post}")
+            }
+        }
+
+        //display the posts
+        fun updatePostsList(query: Query) {
+            query.addSnapshotListener { snapshot, exception ->
+                if (exception != null || snapshot == null) {
+                    Log.e(TAG, "error when querying data", exception)
+                    return@addSnapshotListener
+                }
+                val postList = snapshot.toObjects(Post::class.java)
+                posts.clear()
+                posts.addAll(postList)
+                adapter.notifyDataSetChanged()
+
+                for (post in postList) {
+                    Log.e(TAG, "post  ${post}")
+                }
+            }
+        }
+
+
 
         filterButton.setOnClickListener {
+
             val popup = PopupMenu(this, filterButton)
             val inflater: MenuInflater = popup.menuInflater
             inflater.inflate(R.menu.filter_menu, popup.menu)
+
             popup.setOnMenuItemClickListener { item: MenuItem ->
                 // Handle item selection
                 when (item.itemId) {
@@ -138,85 +169,89 @@ class MainActivity : AppCompatActivity(), PostListener {
                         var postsReference = firebaseDb.collection("posts")
                             .limit(20)
                             .orderBy("timestamp", Query.Direction.DESCENDING)
+                        updatePostsList(postsReference)
 
-                        postsReference.addSnapshotListener { snapshot, exception ->
-                            if(exception != null || snapshot == null){
-                                Log.e(TAG, "error when querying data",exception)
-                                return@addSnapshotListener
-
-                            }
-                            val postList1 = snapshot.toObjects(Post::class.java)
-                            posts.clear()
-                            posts.addAll(postList1)
-                            adapter.notifyDataSetChanged()
-
-                            for(post in postList1){
-                                Log.e(TAG,"post  ${post}")
-                            }
-                        }
                         true
                     }
                     R.id.painting -> {
                         var postsReference = firebaseDb.collection("posts")
                             .limit(20)
                             .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Painting")
+                        updatePostsList(postsReference)
 
-                        //val useremail = signedInUser?.userEmail
-
-                            postsReference = postsReference.whereEqualTo("type", "Painting")
-
-                        postsReference.addSnapshotListener { snapshot, exception ->
-                            if(exception != null || snapshot == null){
-                                Log.e(TAG, "error when querying data",exception)
-                                return@addSnapshotListener
-
-                            }
-                            val postList1 = snapshot.toObjects(Post::class.java)
-                            posts.clear()
-                            posts.addAll(postList1)
-                            adapter.notifyDataSetChanged()
-
-                            for(post in postList1){
-                                Log.e(TAG,"post  ${post}")
-                            }
-                        }
-                        // Filter option 1 selected
                         true
                     }
                     R.id.drawing -> {
-                        // Filter option 2 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Drawing")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.sculpture -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Sculpture")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.printmaking -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Printmaking")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.photo -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Photography")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.film -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Film")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.architecture -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Architecture")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.design -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Design")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.textiles -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Textiles")
+                        updatePostsList(postsReference)
                         true
                     }
                     R.id.ceramics -> {
-                        // Filter option 3 selected
+                        var postsReference = firebaseDb.collection("posts")
+                            .limit(20)
+                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                        postsReference = postsReference.whereEqualTo("type", "Ceramics")
+                        updatePostsList(postsReference)
                         true
                     }
 
